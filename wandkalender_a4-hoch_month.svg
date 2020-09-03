@@ -1,0 +1,94 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 841.88976 1190.55118">
+  <defs>
+    <clipPath id="clip-path">
+      <circle cx="420.94385" cy="405.23158" r="308.47644" fill="none"/>
+    </clipPath>
+  </defs>
+  <title>wandkalender_a3-hoch</title>
+  <g id="month">
+    <g id="background">
+      <rect width="841.88976" height="1190.55118" fill="#fff"/>
+    </g>
+    <g id="layout-area">
+      <rect id="Rechteck" width="841.88976" height="738.41776" fill="#9c9b9b"/>
+    </g>
+    <g id="slots">
+      <g clip-path="url(#clip-path)">
+        <image width="5184" height="3456" transform="translate(-436.52464 -56.80349) scale(0.30255)" xlink:href="andrea-tummons-NLh54uTbftQ-unsplash.jpg"/>
+      </g>
+    </g>
+    <g id="calendar">
+      <g id="_-table" data-name="-table">
+        <g id="Wochentage-dt1-upper-r">
+          <text id="_-d1" data-name="-d1" transform="translate(345.57551 806.20398)" font-size="12" fill="#1d1d1b" font-family="Overpass-ExtraLight, Overpass" font-weight="200">M</text>
+          <text id="_-d2" data-name="-d2" transform="translate(387.81769 806.20398)" font-size="12" fill="#1d1d1b" font-family="Overpass-ExtraLight, Overpass" font-weight="200">D</text>
+          <text id="_-d3" data-name="-d3" transform="translate(430.26594 806.20398)" font-size="12" fill="#1d1d1b" font-family="Overpass-ExtraLight, Overpass" font-weight="200">M</text>
+          <text id="_-d4" data-name="-d4" transform="translate(476.15754 806.20398)" font-size="12" fill="#1d1d1b" font-family="Overpass-ExtraLight, Overpass" font-weight="200">D</text>
+          <text id="_-d5" data-name="-d5" transform="translate(519.06086 806.20398)" font-size="12" fill="#1d1d1b" font-family="Overpass-ExtraLight, Overpass" font-weight="200">F</text>
+          <text id="_-d6-ref" data-name="-d6-ref" transform="translate(563.00178 806.20398)" font-size="12" fill="#b67e7e" font-family="Overpass-ExtraLight, Overpass" font-weight="200">S</text>
+          <text id="_-d7-ref" data-name="-d7-ref" transform="translate(606.451 806.20398)" font-size="12" fill="#b67e7e" font-family="Overpass-ExtraLight, Overpass" font-weight="200">S</text>
+        </g>
+        <g id="Woche1-nn02-r">
+          <text id="_-n1" data-name="-n1" transform="translate(343.65559 836.49841)" font-size="12" fill="#1d1d1b" font-family="Overpass-ExtraLight, Overpass" font-weight="200">01</text>
+          <text id="_-n2" data-name="-n2" transform="translate(384.94758 836.49841)" font-size="12" fill="#1d1d1b" font-family="Overpass-ExtraLight, Overpass" font-weight="200">02</text>
+          <text id="_-n3" data-name="-n3" transform="translate(427.89582 836.49817)" font-size="12" fill="#1d1d1b" font-family="Overpass-ExtraLight, Overpass" font-weight="200">03</text>
+          <text id="_-n4" data-name="-n4" transform="translate(470.80207 836.49817)" font-size="12" fill="#1d1d1b" font-family="Overpass-ExtraLight, Overpass" font-weight="200">04</text>
+          <text id="_-n5" data-name="-n5" transform="translate(513.44416 836.49841)" font-size="12" fill="#1d1d1b" font-family="Overpass-ExtraLight, Overpass" font-weight="200">05</text>
+          <text id="_-n6-ref" data-name="-n6-ref" transform="translate(556.5843 836.49817)" font-size="12" fill="#b67e7e" font-family="Overpass-ExtraLight, Overpass" font-weight="200">06</text>
+          <text id="_-n7-ref" data-name="-n7-ref" transform="translate(599.99494 836.49744)" font-size="12" fill="#b67e7e" font-family="Overpass-ExtraLight, Overpass" font-weight="200">07</text>
+        </g>
+        <g id="Woche2-nn02-r">
+          <text id="_-n8" data-name="-n8" transform="translate(340.48762 866.79309)" font-size="12" fill="#1d1d1b" font-family="Overpass-ExtraLight, Overpass" font-weight="200">08</text>
+          <text id="_-n9" data-name="-n9" transform="translate(383.90949 866.79309)" font-size="12" fill="#1d1d1b" font-family="Overpass-ExtraLight, Overpass" font-weight="200">09</text>
+          <text id="_-n10" data-name="-n10" transform="translate(428.77228 866.79236)" font-size="12" fill="#1d1d1b" font-family="Overpass-ExtraLight, Overpass" font-weight="200">10</text>
+          <text id="_-n11" data-name="-n11" transform="translate(473.83771 866.79236)" font-size="12" fill="#1d1d1b" font-family="Overpass-ExtraLight, Overpass" font-weight="200">11</text>
+          <text id="_-n12" data-name="-n12" transform="translate(515.59211 866.79309)" font-size="12" fill="#1d1d1b" font-family="Overpass-ExtraLight, Overpass" font-weight="200">12</text>
+          <text id="_-n13-ref" data-name="-n13-ref" transform="translate(559.00275 866.79236)" font-size="12" fill="#b67e7e" font-family="Overpass-ExtraLight, Overpass" font-weight="200">13</text>
+          <text id="_-n14-ref" data-name="-n14-ref" transform="translate(602.37092 866.79285)" font-size="12" fill="#b67e7e" font-family="Overpass-ExtraLight, Overpass" font-weight="200">14</text>
+        </g>
+        <g id="Woche3-nn02-r">
+          <text id="_-n15" data-name="-n15" transform="translate(343.55891 897.08679)" font-size="12" fill="#1d1d1b" font-family="Overpass-ExtraLight, Overpass" font-weight="200">15</text>
+          <text id="_-n16" data-name="-n16" transform="translate(386.89191 897.08679)" font-size="12" fill="#1d1d1b" font-family="Overpass-ExtraLight, Overpass" font-weight="200">16</text>
+          <text id="_-n17" data-name="-n17" transform="translate(430.49592 897.08679)" font-size="12" fill="#1d1d1b" font-family="Overpass-ExtraLight, Overpass" font-weight="200">17</text>
+          <text id="_-n18" data-name="-n18" transform="translate(472.98273 897.08679)" font-size="12" fill="#1d1d1b" font-family="Overpass-ExtraLight, Overpass" font-weight="200">18</text>
+          <text id="_-n19" data-name="-n19" transform="translate(516.13703 897.08679)" font-size="12" fill="#1d1d1b" font-family="Overpass-ExtraLight, Overpass" font-weight="200">19</text>
+          <text id="_-n20-ref" data-name="-n20-ref" transform="translate(557.4173 897.08679)" font-size="12" fill="#b67e7e" font-family="Overpass-ExtraLight, Overpass" font-weight="200">20</text>
+          <text id="_-n21-ref" data-name="-n21-ref" transform="translate(602.21467 897.08728)" font-size="12" fill="#b67e7e" font-family="Overpass-ExtraLight, Overpass" font-weight="200">21</text>
+        </g>
+        <g id="Woche4-nn02-r">
+          <text id="_-n22" data-name="-n22" transform="translate(340.70344 927.38025)" font-size="12" fill="#1d1d1b" font-family="Overpass-ExtraLight, Overpass" font-weight="200">22</text>
+          <text id="_-n23" data-name="-n23" transform="translate(383.81818 927.38025)" font-size="12" fill="#1d1d1b" font-family="Overpass-ExtraLight, Overpass" font-weight="200">23</text>
+          <text id="_-n24" data-name="-n24" transform="translate(426.89143 927.38098)" font-size="12" fill="#1d1d1b" font-family="Overpass-ExtraLight, Overpass" font-weight="200">24</text>
+          <text id="_-n25" data-name="-n25" transform="translate(469.70148 927.38098)" font-size="12" fill="#1d1d1b" font-family="Overpass-ExtraLight, Overpass" font-weight="200">25</text>
+          <text id="_-n26" data-name="-n26" transform="translate(513.00861 927.38025)" font-size="12" fill="#1d1d1b" font-family="Overpass-ExtraLight, Overpass" font-weight="200">26</text>
+          <text id="_-n27-ref" data-name="-n27-ref" transform="translate(556.58527 927.38098)" font-size="12" fill="#b67e7e" font-family="Overpass-ExtraLight, Overpass" font-weight="200">27</text>
+          <text id="_-n28-ref" data-name="-n28-ref" transform="translate(599.0467 927.38074)" font-size="12" fill="#b67e7e" font-family="Overpass-ExtraLight, Overpass" font-weight="200">28</text>
+        </g>
+        <g id="Woche5-nn02-r">
+          <text id="_-n29" data-name="-n29" transform="translate(340.87141 957.6759)" font-size="12" fill="#1d1d1b" font-family="Overpass-ExtraLight, Overpass" font-weight="200">29</text>
+          <text id="_-n30" data-name="-n30" transform="translate(383.74836 957.6759)" font-size="12" fill="#1d1d1b" font-family="Overpass-ExtraLight, Overpass" font-weight="200">30</text>
+          <text id="_-n31" data-name="-n31" transform="translate(428.48518 957.67517)" font-size="12" fill="#1d1d1b" font-family="Overpass-ExtraLight, Overpass" font-weight="200">31</text>
+          <text id="_-n32" data-name="-n32" transform="translate(469.91144 957.67517)" font-size="12" fill="#1d1d1b" font-family="Overpass-ExtraLight, Overpass" font-weight="200">32</text>
+          <text id="_-n33" data-name="-n33" transform="translate(512.9925 957.6759)" font-size="12" fill="#1d1d1b" font-family="Overpass-ExtraLight, Overpass" font-weight="200">33</text>
+          <text id="_-n34-ref" data-name="-n34-ref" transform="translate(556.03156 957.67517)" font-size="12" fill="#b67e7e" font-family="Overpass-ExtraLight, Overpass" font-weight="200">34</text>
+          <text id="_-n35-ref" data-name="-n35-ref" transform="translate(598.80744 957.67517)" font-size="12" fill="#b67e7e" font-family="Overpass-ExtraLight, Overpass" font-weight="200">35</text>
+        </g>
+        <g id="Woche6-nn02-r">
+          <text id="_-n36" data-name="-n36" transform="translate(340.99152 987.68787)" font-size="12" fill="#1d1d1b" font-family="Overpass-ExtraLight, Overpass" font-weight="200">36</text>
+          <text id="_-n37" data-name="-n37" transform="translate(384.55549 987.96912)" font-size="12" fill="#1d1d1b" font-family="Overpass-ExtraLight, Overpass" font-weight="200">37</text>
+          <text id="_-n38" data-name="-n38" transform="translate(427.00373 987.96912)" font-size="12" fill="#1d1d1b" font-family="Overpass-ExtraLight, Overpass" font-weight="200">38</text>
+          <text id="_-n39" data-name="-n39" transform="translate(470.11799 987.96912)" font-size="12" fill="#1d1d1b" font-family="Overpass-ExtraLight, Overpass" font-weight="200">39</text>
+          <text id="_-n40" data-name="-n40" transform="translate(512.97394 987.96912)" font-size="12" fill="#1d1d1b" font-family="Overpass-ExtraLight, Overpass" font-weight="200">40</text>
+          <text id="_-n41" data-name="-n41" transform="translate(557.73225 987.96912)" font-size="12" fill="#b67e7e" font-family="Overpass-ExtraLight, Overpass" font-weight="200">41</text>
+          <text id="_-n42-ref" data-name="-n42-ref" transform="translate(599.17853 987.68787)" font-size="12" fill="#b67e7e" font-family="Overpass-ExtraLight, Overpass" font-weight="200">42</text>
+        </g>
+        <text id="september-mn02-ref" transform="translate(522.94569 262.48535)" font-size="216.04091" fill="#b67e7e" font-family="PlayfairDisplaySC-Italic, Playfair Display SC" font-style="italic">’09</text>
+        <rect id="balken-ref" x="72.74235" y="954.97564" width="400.2143" height="70.93678" transform="translate(-717.59454 1263.29353) rotate(-90)" fill="#b67e7e"/>
+        <text id="september-mt9-lower-r" transform="translate(288.51514 1052.24023) rotate(-90)" font-size="53" fill="#fff" font-family="FogtwoNo5">september</text>
+      </g>
+    </g>
+  </g>
+  <g id="config-ref_r" data-name="config-ref=r">
+    <rect width="21.23684" height="21.23684" fill="none"/>
+  </g>
+</svg>
