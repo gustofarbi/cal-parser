@@ -1,7 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="d92b878a-e95b-4d9e-9595-c01223f1dc6c" name="Default Changelist" comment="" />
+    <list default="true" id="d92b878a-e95b-4d9e-9595-c01223f1dc6c" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/svg/annotation_alignment.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/svg/annotation_calendar_week.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/svg/annotation_capitalization.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/svg/annotation_has_refinement.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/svg/annotation_language.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/svg/annotation_month.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/svg/annotation_refinement_type.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/svg/annotation_render_month_only.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/svg/annotation_scaling.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/svg/annotation_weekday_header.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/svg/annotation_weekday_position.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/svg/annotation_year.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/go.mod" beforeDir="false" afterPath="$PROJECT_DIR$/go.mod" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/svg/annotation.go" beforeDir="false" afterPath="$PROJECT_DIR$/svg/annotation.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/svg/annotation_context.go" beforeDir="false" afterPath="$PROJECT_DIR$/svg/annotation_context.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/svg/calendar.go" beforeDir="false" afterPath="$PROJECT_DIR$/svg/calendar.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/svg/calendar_parser.go" beforeDir="false" afterPath="$PROJECT_DIR$/svg/calendar_parser.go" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -14,7 +33,10 @@
       </list>
     </option>
   </component>
-  <component name="GOROOT" path="/usr/local/Cellar/go/1.14.4/libexec" />
+  <component name="GOROOT" path="$PROJECT_DIR$/../../go1.14.1" />
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
   <component name="ProjectId" id="1goYJpkJNSud4VM9b3MX8iF6fYg" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
@@ -27,6 +49,7 @@
     <property name="go.import.settings.migrated" value="true" />
     <property name="go.sdk.automatically.set" value="true" />
     <property name="go.tried.to.enable.integration.vgo.integrator" value="true" />
+    <property name="last.edited.regexp" value="n3" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="restartRequiresConfirmation" value="false" />
   </component>
@@ -74,6 +97,10 @@
     <integration-enabled>true</integration-enabled>
   </component>
   <component name="WindowStateProjectService">
+    <state x="755" y="459" width="410" height="141" key="#GOROOT" timestamp="1599152617205">
+      <screen x="0" y="27" width="1920" height="999" />
+    </state>
+    <state x="755" y="459" width="410" height="141" key="#GOROOT/0.27.1920.999/1920.0.1920.1080@0.27.1920.999" timestamp="1599152617205" />
     <state x="755" y="363" width="400" height="334" key="#Go_Modules" timestamp="1599061322256">
       <screen x="0" y="27" width="1920" height="999" />
     </state>

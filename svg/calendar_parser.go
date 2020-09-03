@@ -5,7 +5,8 @@ import (
 )
 
 func (c Calendar) Parse(svg Svg) {
-	c.Context = Context{make(map[string]Annotation)}
+	go c.StartReceiver()
+	c.Context = Context{c.TextReceiver, make(map[int]map[string]Annotation)}
 	for _, g := range svg.Gs {
 		if strings.Contains(g.Id, "calendar") {
 			c.parseCalendar(g)
@@ -19,7 +20,7 @@ func (c Calendar) parseGroup(g Group) {
 		c.parseCalendar(g)
 	}
 	for _, text := range g.Texts {
-		c.parseText(text)
+		go c.parseText(text)
 	}
 	for _, group := range g.Gs {
 		c.parseGroup(group)
@@ -27,7 +28,6 @@ func (c Calendar) parseGroup(g Group) {
 }
 
 func (c Calendar) parseText(text Text) {
-	//calendarText := CalendarText(text)
 	calendarText := CalendarText{
 		Position:   text.Position,
 		Content:    text.Content,
@@ -35,9 +35,12 @@ func (c Calendar) parseText(text Text) {
 		FontFamily: text.FontFamily,
 		FontColor:  text.Fill,
 	}
+
 	text.Tranform.Apply(calendarText)
 	c.Context.ApplyEarly(calendarText)
-	c.texts = append(c.texts, calendarText)
+	calendarText.Annotations = c.Context.Annotations
+
+	c.TextReceiver <- calendarText
 }
 
 func (c Calendar) parseCalendar(g Group) {

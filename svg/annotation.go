@@ -13,6 +13,7 @@ var registered []Annotation
 func init() {
 	registered = []Annotation{
 		CalendarType{},
+		Alignment{},
 	}
 }
 

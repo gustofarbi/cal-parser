@@ -2,8 +2,11 @@ package svg
 
 import "sort"
 
+type AnnotationCollection map[int]map[string]Annotation
+
 type Context struct {
-	Annotations map[int]map[string]Annotation
+	TextReceiver chan CalendarText
+	Annotations AnnotationCollection
 }
 
 func (c Context) Update(h HasAnnotations) {
