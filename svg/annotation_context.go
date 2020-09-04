@@ -6,13 +6,19 @@ type AnnotationCollection map[int]map[string]Annotation
 
 type Context struct {
 	TextReceiver chan CalendarText
-	Annotations AnnotationCollection
+	Annotations  AnnotationCollection
 }
 
 func (c Context) Update(h HasAnnotations) {
 	newAnnotations := Parse(h)
 	for _, anno := range newAnnotations {
 		c.Annotations[anno.Priority()][anno.Id()] = anno
+	}
+}
+
+func (c Context) Add(as []Annotation) {
+	for _, a := range as {
+		c.Annotations[a.Priority()][a.Id()] = a
 	}
 }
 

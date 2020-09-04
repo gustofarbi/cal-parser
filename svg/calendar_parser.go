@@ -4,7 +4,7 @@ import (
 	"strings"
 )
 
-func (c Calendar) Parse(svg Svg) {
+func (c Calendar) Parse(svg Svg, scalingRatio float64) {
 	go c.StartReceiver()
 	c.Context = Context{c.TextReceiver, make(map[int]map[string]Annotation)}
 	for _, g := range svg.Gs {

@@ -12,8 +12,30 @@ var registered []Annotation
 
 func init() {
 	registered = []Annotation{
-		CalendarType{},
 		Alignment{},
+		CalendarType{},
+		CalendarWeek{},
+		Capitalization{},
+		FormatMonthNumber{},
+		FormatMonthText{},
+		FormatWeekdayHeader{},
+		FormatWeekdayPosition{},
+		FormatYear{},
+		HasRefinement{},
+		Language{},
+		LineSkipDay{},
+		LineWeekdayElement{},
+		LineWeekendElement{},
+		Month{},
+		RefinementType{},
+		RenderMonthOnly{},
+		Scaling{},
+		DayAnotherMonth{},
+		DayCurrentMonth{},
+		RenderPrevNextMonth{},
+		SkipWeek{},
+		WeekdayHeader{},
+		WeekdayPosition{},
 	}
 }
 
