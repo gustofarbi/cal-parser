@@ -7,14 +7,14 @@ import (
 )
 
 type FormatWeekdayPosition struct {
-	format string
+	Attribute
 }
 
 func (f FormatWeekdayPosition) Apply(text CalendarText) {
 	if text.WeekdayPosition == 0 {
 		return
 	}
-	if f.format == "02" {
+	if f.Attr().(string) == "02" {
 		number, _ :=  strconv.Atoi(text.Content)
 		text.Content = fmt.Sprintf("%02d", number)
 	}
@@ -28,7 +28,7 @@ func (f FormatWeekdayPosition) Matches(subject string) bool {
 func (f FormatWeekdayPosition) New(subject string) Annotation {
 	reg := regexp.MustCompile("^nn([02]{1,2})")
 	val := reg.FindString(subject)
-	return FormatWeekdayPosition{val}
+	return FormatWeekdayPosition{Attribute{val}}
 }
 
 func (f FormatWeekdayPosition) Id() string {

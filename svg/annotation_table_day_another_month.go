@@ -1,6 +1,8 @@
 package svg
 
-type DayAnotherMonth struct {}
+type DayAnotherMonth struct {
+	Attribute
+}
 
 func (d DayAnotherMonth) Apply(text CalendarText) {
 	text.IsCurrentMonth = false

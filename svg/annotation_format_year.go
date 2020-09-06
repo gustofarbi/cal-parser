@@ -3,7 +3,7 @@ package svg
 import "regexp"
 
 type FormatYear struct {
-	format string
+	Attribute
 }
 
 func (f FormatYear) Apply(text CalendarText) {
@@ -11,7 +11,7 @@ func (f FormatYear) Apply(text CalendarText) {
 		return
 	}
 
-	if f.format == "2" {
+	if f.Attr().(string) == "2" {
 		text.Content = text.Content[len(text.Content)-2:]
 	}
 }
@@ -24,7 +24,7 @@ func (f FormatYear) Matches(subject string) bool {
 func (f FormatYear) New(subject string) Annotation {
 	reg := regexp.MustCompile("^yn([24])")
 	val := reg.FindString(subject)
-	return FormatYear{val}
+	return FormatYear{Attribute{val}}
 }
 
 func (f FormatYear) Id() string {

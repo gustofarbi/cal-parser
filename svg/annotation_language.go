@@ -10,11 +10,11 @@ var languages = []string{
 }
 
 type Language struct {
-	Lang string
+	Attribute
 }
 
 func (l Language) Apply(text CalendarText) {
-	text.Language = l.Lang
+	text.Language = l.Attr().(string)
 }
 
 func (l Language) Matches(subject string) bool {
@@ -27,7 +27,7 @@ func (l Language) Matches(subject string) bool {
 }
 
 func (l Language) New(subject string) Annotation {
-	return Language{subject}
+	return Language{Attribute{subject}}
 }
 
 func (l Language) Id() string {

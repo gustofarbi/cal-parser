@@ -5,11 +5,11 @@ import (
 )
 
 type Capitalization struct {
-	Attr string
+	Attribute
 }
 
 func (c Capitalization) Apply(text CalendarText) {
-	switch c.Attr {
+	switch c.Attr().(string) {
 	case "upper":
 		text.Content = strings.ToUpper(text.Content)
 		break
@@ -24,7 +24,7 @@ func (c Capitalization) Matches(subject string) bool {
 }
 
 func (c Capitalization) New(subject string) Annotation {
-	return Capitalization{subject}
+	return Capitalization{Attribute{subject}}
 }
 
 func (c Capitalization) Id() string {

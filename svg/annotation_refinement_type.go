@@ -3,7 +3,7 @@ package svg
 import "regexp"
 
 type RefinementType struct {
-	Type string
+	Attribute
 }
 
 func (r RefinementType) Apply(text CalendarText) {}
@@ -14,7 +14,7 @@ func (r RefinementType) Matches(subject string) bool {
 }
 
 func (r RefinementType) New(subject string) Annotation {
-	return RefinementType{subject}
+	return RefinementType{Attribute{subject}}
 }
 
 func (r RefinementType) Id() string {

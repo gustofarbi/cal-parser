@@ -1,13 +1,13 @@
 package svg
 
 type Scaling struct {
-	scale float64
+	Attribute
 }
 
 func (s Scaling) Apply(text CalendarText) {
-	text.Position.X *= s.scale
-	text.Position.Y *= s.scale
-	text.FontSize *= s.scale
+	text.Position.X *= s.Attr().(float64)
+	text.Position.Y *= s.Attr().(float64)
+	text.FontSize *= s.Attr().(float64)
 }
 
 func (s Scaling) Matches(subject string) bool {

@@ -1,20 +1,21 @@
 package svg
 
 type Calendar struct {
-	texts []CalendarText
+	texts                []CalendarText
 	weekdayHeadingsTable []CalendarText
-	weekdayHeadingsLine []CalendarText
-	TextReceiver chan CalendarText
-	Context Context
+	weekdayHeadingsLine  []CalendarText
+	Receiver             chan interface{}
+	Context              Context
+	RenderPrevNext       bool
 }
 
 func (c Calendar) StartReceiver() {
 	for {
 		select {
-		case text := <- c.TextReceiver:
-			switch {
-			//todo
-			}
+		//case object := <- c.Receiver:
+		//	switch x := object.(type) {
+		//	todo
+		//	}
 		}
 	}
 }

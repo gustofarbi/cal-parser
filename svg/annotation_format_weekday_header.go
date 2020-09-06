@@ -3,7 +3,7 @@ package svg
 import "regexp"
 
 type FormatWeekdayHeader struct {
-	format string
+	Attribute
 }
 
 func (f FormatWeekdayHeader) Apply(text CalendarText) {
@@ -11,7 +11,8 @@ func (f FormatWeekdayHeader) Apply(text CalendarText) {
 		return
 	}
 
-	switch f.format {
+	format := f.Attr().(string)
+	switch format {
 	case "1":
 		text.Content = text.Content[:1]
 		break
@@ -19,7 +20,7 @@ func (f FormatWeekdayHeader) Apply(text CalendarText) {
 	case "2p":
 		// todo: lang
 		text.Content = text.Content[:2]
-		if f.format == "2p" {
+		if format == "2p" {
 			text.Content += "."
 		}
 		break
@@ -34,7 +35,7 @@ func (f FormatWeekdayHeader) Matches(subject string) bool {
 func (f FormatWeekdayHeader) New(subject string) Annotation {
 	reg := regexp.MustCompile("^dt([129p]{1,2})")
 	val := reg.FindString(subject)
-	return FormatWeekdayHeader{val}
+	return FormatWeekdayHeader{Attribute{val}}
 }
 
 func (f FormatWeekdayHeader) Id() string {

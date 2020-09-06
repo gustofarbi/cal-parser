@@ -6,11 +6,11 @@ const (
 )
 
 type CalendarType struct {
-	Attr     string
+	Attribute
 }
 
 func (c CalendarType) Apply(text CalendarText) {
-	text.CalendarType = c.Attr
+	text.CalendarType = c.Attr().(string)
 }
 
 func (c CalendarType) Matches(subject string) bool {
@@ -18,7 +18,7 @@ func (c CalendarType) Matches(subject string) bool {
 }
 
 func (c CalendarType) New(subject string) Annotation {
-	return CalendarType{Attr: subject}
+	return CalendarType{Attribute{subject}}
 }
 
 func (c CalendarType) Id() string {

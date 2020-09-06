@@ -2,7 +2,9 @@ package svg
 
 import "strings"
 
-type Month struct {}
+type Month struct {
+	Attribute
+}
 
 func (m Month) Apply(text CalendarText) {
 	text.IsMonth = true

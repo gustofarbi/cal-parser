@@ -3,14 +3,14 @@ package svg
 import "regexp"
 
 type FormatMonthText struct {
-	format string
+	Attribute
 }
 
 func (f FormatMonthText) Apply(text CalendarText) {
 	if !text.IsMonth {
 		return
 	}
-	switch f.format {
+	switch f.Attr().(string) {
 	case "1":
 		text.Content = text.Content[:1]
 		break
@@ -29,7 +29,7 @@ func (f FormatMonthText) Matches(subject string) bool {
 func (f FormatMonthText) New(subject string) Annotation {
 	reg := regexp.MustCompile("^mt([139])")
 	val := reg.FindString(subject)
-	return FormatMonthText{val}
+	return FormatMonthText{Attribute{val}}
 }
 
 func (f FormatMonthText) Id() string {

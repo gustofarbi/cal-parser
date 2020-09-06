@@ -15,7 +15,8 @@ type Svg struct {
 }
 
 type Group struct {
-	AnnotationsRaw
+	Common
+	Content           string    `xml:",innerxml"`
 	Id                string    `xml:"id,attr,omitempty"`
 	ClipPathReference string    `xml:"clip-path,attr"`
 	Rects             []Rect    `xml:"rect"`
@@ -28,14 +29,14 @@ type Group struct {
 }
 
 type Image struct {
-	AnnotationsRaw
+	Common
 	Position
 	Transform Transforms `xml:"transform,attr"`
 	Href      string     `xml:"http://www.w3.org/1999/xlink href,attr"`
 }
 
 type Text struct {
-	AnnotationsRaw
+	Common
 	Position
 	Id         string     `xml:"id,attr"`
 	FontSize   float64    `xml:"font-size,attr"`
@@ -47,10 +48,11 @@ type Text struct {
 }
 
 type Rect struct {
-	AnnotationsRaw
+	Common
 	Position
-	Id   string `xml:"id,attr,omitempty"`
-	Fill string `xml:"fill,attr"`
+	Content string `xml:",innerxml"`
+	Id      string `xml:"id,attr,omitempty"`
+	Fill    string `xml:"fill,attr"`
 }
 
 type Def struct {
@@ -58,21 +60,22 @@ type Def struct {
 }
 
 type Polygon struct {
-	AnnotationsRaw
+	Common
 	PointsSlice Points `xml:"points,attr"`
 	Fill        string `xml:"fill,attr"`
 }
 
 type Points struct {
-	Ps []float64
+	Ps []float64 // todo: is this necessary?
 }
 
-type AnnotationsRaw struct {
+type Common struct {
+	Raw string `xml:",innerxml"`
 	Values []string `xml:"data-name,attr"`
 }
 
 type Circle struct {
-	AnnotationsRaw
+	Common
 	Cx   float64 `xml:"cx,attr"`
 	Cy   float64 `xml:"cy,attr"`
 	R    float64 `xml:"r,attr"`
@@ -80,7 +83,7 @@ type Circle struct {
 }
 
 type Path struct {
-	AnnotationsRaw
+	Common
 	D       string  `xml:"d,attr"`
 	Fill    string  `xml:"fill,attr"`
 	Opacity float64 `xml:"opacity,attr,omitempty"`
@@ -149,7 +152,7 @@ func (p *Points) UnmarshalXMLAttr(attr xml.Attr) error {
 	return nil
 }
 
-func (a *AnnotationsRaw) UnmarshalXMLAttr(attr xml.Attr) error {
+func (a *Common) UnmarshalXMLAttr(attr xml.Attr) error {
 	a.Values = strings.Split(attr.Value, "-")
 
 	return nil
@@ -159,7 +162,7 @@ type HasAnnotations interface {
 	All() []string
 }
 
-func (a AnnotationsRaw) All() []string {
+func (a Common) All() []string {
 	return a.Values
 }
 

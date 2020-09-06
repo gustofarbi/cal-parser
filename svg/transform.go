@@ -8,7 +8,7 @@ type Transforms struct {
 
 func (t Transforms) Apply(text CalendarText) {
 	for _, transform := range t.collection {
-		transform.Apply(text)
+		transform.Apply(text.Position)
 	}
 }
 

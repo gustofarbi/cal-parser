@@ -6,6 +6,7 @@ type Annotation interface {
 	New(subject string) Annotation
 	Id() string
 	Priority() int
+	Attr() interface{}
 }
 
 var registered []Annotation
@@ -39,12 +40,12 @@ func init() {
 	}
 }
 
-func Parse(object HasAnnotations) map[string]Annotation {
-	parsed := make(map[string]Annotation)
+func Parse(object HasAnnotations) []Annotation {
+	parsed := make([]Annotation, len(object.All()))
 	for _, subject := range object.All() {
 		for _, annotation := range registered {
 			if annotation.Matches(subject) {
-				parsed[annotation.Id()] = annotation.New(subject)
+				parsed = append(parsed, annotation.New(subject))
 			}
 		}
 	}

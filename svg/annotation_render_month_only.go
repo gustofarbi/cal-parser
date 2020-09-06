@@ -6,7 +6,7 @@ import (
 )
 
 type RenderMonthOnly struct {
-	doRender bool
+	Attribute
 }
 
 func (r RenderMonthOnly) Apply(text CalendarText) {}
@@ -19,7 +19,7 @@ func (r RenderMonthOnly) Matches(subject string) bool {
 func (r RenderMonthOnly) New(subject string) Annotation {
 	reg := regexp.MustCompile("^m(\\d{1,2})")
 	val, _ := strconv.ParseBool(reg.FindString(subject))
-	return RenderMonthOnly{val}
+	return RenderMonthOnly{Attribute{val}}
 }
 
 func (r RenderMonthOnly) Id() string {

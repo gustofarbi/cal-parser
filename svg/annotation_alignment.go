@@ -3,7 +3,7 @@ package svg
 import "gopkg.in/gographics/imagick.v3/imagick"
 
 type Alignment struct {
-	Attr string
+	Attribute
 }
 
 func (a Alignment) Apply(text CalendarText) {
@@ -15,7 +15,7 @@ func (a Alignment) Apply(text CalendarText) {
 	if err != nil {
 		// todo
 	}
-	switch a.Attr {
+	switch a.Attr().(string) {
 	case "c":
 		text.Position.X += (text.Position.Width - dims.TextWidth) / 2
 		break
@@ -30,7 +30,7 @@ func (a Alignment) Matches(subject string) bool {
 }
 
 func (a Alignment) New(subject string) Annotation {
-	return Alignment{subject}
+	return Alignment{Attribute{subject}}
 }
 
 func (a Alignment) Id() string {

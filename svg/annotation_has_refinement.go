@@ -1,6 +1,8 @@
 package svg
 
-type HasRefinement struct {}
+type HasRefinement struct {
+	Attribute
+}
 
 func (h HasRefinement) Apply(text CalendarText) {
 	text.HasRefinement = true

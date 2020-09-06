@@ -1,6 +1,8 @@
 package svg
 
-type LineWeekdayElement struct {}
+type LineWeekdayElement struct {
+	Attribute
+}
 
 func (l LineWeekdayElement) Apply(text CalendarText) {
 	text.IsWeekend = false

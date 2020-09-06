@@ -6,7 +6,7 @@ import (
 )
 
 type SkipWeek struct {
-	attr int
+	Attribute
 }
 
 func (s SkipWeek) Apply(text CalendarText) {}
@@ -20,7 +20,7 @@ func (s SkipWeek) New(subject string) Annotation {
 	reg := regexp.MustCompile("^w([56])")
 	val := reg.FindString(subject)
 	attr, _ := strconv.Atoi(val)
-	return SkipWeek{attr}
+	return SkipWeek{Attribute{attr}}
 }
 
 func (s SkipWeek) Id() string {

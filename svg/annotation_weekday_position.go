@@ -6,11 +6,11 @@ import (
 )
 
 type WeekdayPosition struct {
-	pos int
+	Attribute
 }
 
 func (w WeekdayPosition) Apply(text CalendarText) {
-	text.WeekdayPosition = w.pos
+	text.WeekdayPosition = w.Attr().(int)
 }
 
 func (w WeekdayPosition) Matches(subject string) bool {
@@ -20,7 +20,7 @@ func (w WeekdayPosition) Matches(subject string) bool {
 
 func (w WeekdayPosition) New(subject string) Annotation {
 	val, _ := strconv.Atoi(subject)
-	return WeekdayPosition{val}
+	return WeekdayPosition{Attribute{val}}
 }
 
 func (w WeekdayPosition) Id() string {

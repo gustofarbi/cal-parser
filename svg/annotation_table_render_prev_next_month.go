@@ -6,7 +6,7 @@ import (
 )
 
 type RenderPrevNextMonth struct {
-	attr bool
+	Attribute
 }
 
 func (r RenderPrevNextMonth) Apply(text CalendarText) {}
@@ -17,7 +17,7 @@ func (r RenderPrevNextMonth) Matches(subject string) bool {
 
 func (r RenderPrevNextMonth) New(subject string) Annotation {
 	val, _ := strconv.ParseBool(subject[4:])
-	return RenderPrevNextMonth{val}
+	return RenderPrevNextMonth{Attribute{val}}
 }
 
 func (r RenderPrevNextMonth) Id() string {

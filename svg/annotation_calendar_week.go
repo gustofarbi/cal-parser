@@ -6,11 +6,11 @@ import (
 )
 
 type CalendarWeek struct {
-	Attr string
+	Attribute
 }
 
 func (c CalendarWeek) Apply(text CalendarText) {
-	val, _ := strconv.Atoi(c.Attr)
+	val, _ := strconv.Atoi(c.Attr().(string))
 	text.CalendarWeek = val
 }
 
@@ -22,7 +22,7 @@ func (c CalendarWeek) Matches(subject string) bool {
 func (c CalendarWeek) New(subject string) Annotation {
 	reg := regexp.MustCompile("^kw(\\d{1,2})")
 
-	return CalendarWeek{reg.FindString(subject)}
+	return CalendarWeek{Attribute{reg.FindString(subject)}}
 }
 
 func (c CalendarWeek) Id() string {

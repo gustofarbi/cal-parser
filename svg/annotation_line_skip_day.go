@@ -2,7 +2,9 @@ package svg
 
 import "regexp"
 
-type LineSkipDay struct {}
+type LineSkipDay struct {
+	Attribute
+}
 
 func (l LineSkipDay) Apply(text CalendarText) {}
 

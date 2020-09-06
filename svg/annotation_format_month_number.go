@@ -5,7 +5,7 @@ import (
 )
 
 type FormatMonthNumber struct {
-	format string
+	Attribute
 }
 
 func (f FormatMonthNumber) Apply(text CalendarText) {
@@ -14,7 +14,7 @@ func (f FormatMonthNumber) Apply(text CalendarText) {
 	}
 
 	// todo
-	switch f.format {
+	switch f.Attr().(string) {
 	case "02":
 	case "2":
 	}
@@ -28,7 +28,7 @@ func (f FormatMonthNumber) Matches(subject string) bool {
 func (f FormatMonthNumber) New(subject string) Annotation {
 	reg := regexp.MustCompile("^mn([02]{1,2})")
 	val := reg.FindString(subject)
-	return FormatMonthNumber{val}
+	return FormatMonthNumber{Attribute{val}}
 }
 
 func (f FormatMonthNumber) Id() string {
