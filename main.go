@@ -24,6 +24,10 @@ func main() {
 		fmt.Errorf("shit happened: %s", err)
 	}
 
+	c := svg.NewCalendar()
+	c.Parse(foo, string(data), 1.5)
+
+	return
 	//fmt.Printf("%#v\n", foo)
 
 	pngFile := "foo.png"

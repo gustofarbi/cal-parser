@@ -14,14 +14,41 @@ type Calendar struct {
 	calendarWeeksTable        []CalendarText
 	calendarWeeksLine         []CalendarText
 
-	skipWeeks       map[int]string
-	skipDays        map[int]string
-	weekdayElements map[int]string
-	weekendElements map[int]string
+	skipWeeks        map[int][]string
+	skipDays         map[int][]string
+	weekdayElements  map[int][]string
+	weekendElements  map[int][]string
+	renderMonthsOnly map[int][]string
 
 	Receiver       chan interface{}
 	RenderPrevNext bool
 	svgContent     string
+}
+
+func NewCalendar() Calendar {
+	return Calendar{
+		texts:                     make([]CalendarText, 0),
+		weekdayHeadingsTable:      make([]CalendarText, 0),
+		weekdayHeadingsLine:       make([]CalendarText, 0),
+		positionTableCurrentMonth: make([]CalendarText, 0),
+		positionTableAnotherMonth: make([]CalendarText, 0),
+		positionsLineWeekend:      make([]CalendarText, 0),
+		positionsLineWeekday:      make([]CalendarText, 0),
+		positionsLineDefault:      make([]CalendarText, 0),
+		years:                     make([]CalendarText, 0),
+		months:                    make([]CalendarText, 0),
+		calendarWeeksTable:        make([]CalendarText, 0),
+		calendarWeeksLine:         make([]CalendarText, 0),
+
+		skipWeeks:                 make(map[int][]string),
+		skipDays:                  make(map[int][]string),
+		weekdayElements:           make(map[int][]string),
+		weekendElements:           make(map[int][]string),
+		renderMonthsOnly:          make(map[int][]string),
+		Receiver:                  make(chan interface{}),
+		RenderPrevNext:            false,
+		svgContent:                "",
+	}
 }
 
 func (c Calendar) StartReceiver() {
@@ -32,7 +59,20 @@ func (c Calendar) StartReceiver() {
 			case CalendarText:
 				c.SaveText(x)
 			case AnnotationObject:
-				x.
+				switch o := x.Annotation.(type) {
+				case RenderPrevNextMonth:
+					if !c.RenderPrevNext {
+						c.RenderPrevNext = x.Attr().(bool)
+					}
+				case SkipWeek:
+					c.skipWeeks[o.Attr().(int)] = append(c.skipWeeks[o.Attr().(int)], x.RawSvg)
+				case LineSkipDay:
+					c.skipDays[o.Attr().(int)] = append(c.skipDays[o.Attr().(int)], x.RawSvg)
+				case LineWeekdayElement:
+					c.weekdayElements[o.Attr().(int)] = append(c.weekdayElements[o.Attr().(int)], x.RawSvg)
+				case LineWeekendElement:
+					c.weekendElements[o.Attr().(int)] = append(c.weekendElements[o.Attr().(int)], x.RawSvg)
+				}
 			}
 		}
 	}

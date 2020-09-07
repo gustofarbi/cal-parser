@@ -12,6 +12,14 @@ type Context struct {
 	RenderMonths []RenderMonthOnly
 }
 
+func NewContext(ch chan interface{}) Context {
+	return Context{
+		ch,
+		make(map[int]map[string][]Annotation),
+		make([]RenderMonthOnly, 0),
+	}
+}
+
 func (c Context) Merge(h HasAnnotations) (result Context) {
 	result.Receiver = c.Receiver
 	result.Annotations = c.Annotations
@@ -22,6 +30,9 @@ func (c Context) Merge(h HasAnnotations) (result Context) {
 
 func (c Context) Add(as []Annotation) {
 	for _, a := range as {
+		if c.Annotations[a.Priority()][a.Id()] == nil {
+			c.Annotations[a.Priority()][a.Id()] = make([]Annotation, 0)
+		}
 		c.Annotations[a.Priority()][a.Id()] = append(c.Annotations[a.Priority()][a.Id()], a)
 	}
 }

@@ -5,9 +5,10 @@ import (
 	"strings"
 )
 
-func (c Calendar) Parse(svg Svg, scalingRatio float64) {
+func (c Calendar) Parse(svg Svg, svgRaw string, scalingRatio float64) {
+	c.svgContent = svgRaw
 	go c.StartReceiver()
-	context := Context{} // todo
+	context := NewContext(c.Receiver)
 	context.Add([]Annotation{
 		Language{Attribute{"de"}},
 		Alignment{Attribute{"r"}},
@@ -33,11 +34,11 @@ func parseGroup(g Group, ctx Context) {
 	}
 
 	ctx.HandleSpecialAnnotation([]Annotation{
-		RenderMonthOnly{},
+		//RenderMonthOnly{}, // todo: other way
 		SkipWeek{},
 		LineSkipDay{},
 		LineWeekdayElement{},
-		LineWeekendElement{}, // todo: weekday position is missing
+		LineWeekendElement{},
 	}, g.Raw)
 
 	for _, text := range g.Texts {
