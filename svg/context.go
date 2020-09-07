@@ -29,7 +29,14 @@ func (c Context) Merge(h HasAnnotations) (result Context) {
 	ctxLock.Lock()
 	result.Receiver = c.Receiver
 	result.ReceiverWg = c.ReceiverWg
-	result.Annotations = c.Annotations
+	result.Annotations = make(map[int]map[string][]Annotation)
+	for prio, group := range c.Annotations {
+		result.Annotations[prio] = make(map[string][]Annotation)
+		for id, collection := range group {
+			result.Annotations[prio][id] = make([]Annotation, len(collection))
+			copy(result.Annotations[prio][id], collection)
+		}
+	}
 	result.Add(Parse(h))
 	ctxLock.Unlock()
 
