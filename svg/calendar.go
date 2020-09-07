@@ -1,7 +1,5 @@
 package svg
 
-import "sync"
-
 type Calendar struct {
 	texts                     []CalendarText
 	weekdayHeadingsTable      []CalendarText
@@ -23,7 +21,6 @@ type Calendar struct {
 	renderMonthsOnly map[int][]string
 
 	Receiver       chan interface{}
-	ReceiverWg     *sync.WaitGroup
 	RenderPrevNext bool
 	svgContent     string
 }
@@ -50,7 +47,6 @@ func NewCalendar() Calendar {
 		renderMonthsOnly: make(map[int][]string),
 
 		Receiver:   make(chan interface{}),
-		ReceiverWg: &sync.WaitGroup{},
 
 		RenderPrevNext: false,
 		svgContent:     "",
@@ -81,7 +77,6 @@ func (c *Calendar) StartReceiver() {
 				}
 			}
 		}
-		c.ReceiverWg.Done()
 	}
 }
 
@@ -95,10 +90,10 @@ func (c *Calendar) SaveText(x CalendarText) {
 		}
 	case x.WeekdayPosition > 0:
 		if x.CalendarType == "table" {
-			if x.IsCurrentMonth {
-				c.positionTableCurrentMonth = append(c.positionTableCurrentMonth, x)
-			} else {
+			if x.IsCurrentMonth { // todo: switch these
 				c.positionTableAnotherMonth = append(c.positionTableAnotherMonth, x)
+			} else {
+				c.positionTableCurrentMonth = append(c.positionTableCurrentMonth, x)
 			}
 		} else if x.CalendarType == "line" {
 			if x.IsWeekend {

@@ -8,7 +8,7 @@ import (
 func (c *Calendar) Parse(svg Svg, svgRaw string, scalingRatio float64) {
 	c.svgContent = svgRaw
 	go c.StartReceiver()
-	context := NewContext(c.Receiver, c.ReceiverWg)
+	context := NewContext(c.Receiver)
 	context.Add([]Annotation{
 		Language{Attribute{"de"}},
 		Alignment{Attribute{"r"}},
@@ -23,14 +23,12 @@ func (c *Calendar) Parse(svg Svg, svgRaw string, scalingRatio float64) {
 		}
 	}
 	c.RemoveTexts()
-	c.ReceiverWg.Wait()
 }
 
 func parseGroup(g Group, formerCtx Context) {
 	ctx := formerCtx.Merge(g.DataName)
 
 	if ctx.RenderPrevNext() {
-		ctx.ReceiverWg.Add(1)
 		ctx.Receiver <- RenderPrevNextMonth{Attribute{true}}
 	}
 
@@ -43,7 +41,7 @@ func parseGroup(g Group, formerCtx Context) {
 	}, g.Raw)
 
 	for _, text := range g.Texts {
-		parseText(text, ctx)
+		go parseText(text, ctx)
 	}
 	for _, group := range g.Gs {
 		parseGroup(group, ctx) // todo maybe not necessary
@@ -64,7 +62,6 @@ func parseText(text Text, ctx Context) {
 	ctx.ApplyEarly(&calendarText)
 	calendarText.Annotations = ctx.Annotations
 
-	ctx.ReceiverWg.Add(1)
 	ctx.Receiver <- calendarText
 }
 

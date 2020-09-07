@@ -15,7 +15,7 @@ import (
 func main() {
 	defer imagick.Terminate()
 	var foo svg.Svg
-	data, err := ioutil.ReadFile("wandkalender_a3-hoch_month.svg")
+	data, err := ioutil.ReadFile("wandkalender_a4-hoch_month.svg")
 	if err != nil {
 		fmt.Errorf("shit happened: %s", err)
 	}
