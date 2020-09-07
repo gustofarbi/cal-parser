@@ -23,6 +23,7 @@ func main() {
 	if err != nil {
 		fmt.Errorf("shit happened: %s", err)
 	}
+
 	//fmt.Printf("%#v\n", foo)
 
 	pngFile := "foo.png"
@@ -32,19 +33,25 @@ func main() {
 
 	var wg sync.WaitGroup
 	os.Mkdir("images", 0775)
-	//var lock sync.Mutex
+	var lock sync.Mutex
 	for i := 0; i < 100; i++ {
 		go func(i int) {
 			wg.Add(1)
 			defer wg.Done()
+			lock.Lock()
 			wand := imagick.NewMagickWand()
+			defer wand.Destroy()
 			pixel := imagick.NewPixelWand()
+			defer pixel.Destroy()
+			draw := imagick.NewDrawingWand()
+			defer draw.Destroy()
+			lock.Unlock()
 			pixel.SetColor("white")
-			err := wand.NewImage(200, 200, pixel)
+			draw.SetFontSize(60.0)
+			err := wand.NewImage(2000, 2000, pixel)
 			if err != nil {
 				fmt.Println(err)
 			}
-			draw := imagick.NewDrawingWand()
 			draw.Annotation(100, 100, "foobar")
 			err = wand.DrawImage(draw)
 			if err != nil {

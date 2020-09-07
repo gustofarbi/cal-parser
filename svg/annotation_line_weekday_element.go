@@ -5,7 +5,7 @@ type LineWeekdayElement struct {
 }
 
 func (l LineWeekdayElement) Apply(text CalendarText) {
-	text.IsWeekend = false
+	text.IsWeekday = true
 }
 
 func (l LineWeekdayElement) Matches(subject string) bool {

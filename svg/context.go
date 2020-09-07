@@ -12,8 +12,12 @@ type Context struct {
 	RenderMonths []RenderMonthOnly
 }
 
-func (c Context) Update(h HasAnnotations) {
-	c.Add(Parse(h))
+func (c Context) Merge(h HasAnnotations) (result Context) {
+	result.Receiver = c.Receiver
+	result.Annotations = c.Annotations
+	result.Add(Parse(h))
+
+	return result
 }
 
 func (c Context) Add(as []Annotation) {
@@ -70,8 +74,26 @@ func (c Context) RenderPrevNext() bool {
 	return false
 }
 
-func (c Context) HandleSpecialAnnotation(anno Annotation) {
-	for _, single := range c.Get(anno.Priority(), anno.Id()) {
-		c.Receiver <- single
+func (c Context) HandleSpecialAnnotation(annotations []Annotation, rawSvg string) {
+	for _, annotation := range annotations {
+		for _, single := range c.Get(annotation.Priority(), annotation.Id()) {
+			switch x := single.(type) {
+			case LineWeekendElement:
+			case LineWeekdayElement: // todo check
+				weekdayPosition := WeekdayPosition{}
+				pos := c.Get(weekdayPosition.Priority(), weekdayPosition.Id())
+				if len(pos) == 0 {
+					continue
+				}
+				x.Attribute.Val = pos[0].Attr().(int)
+			}
+			annotationObject := AnnotationObject{single, rawSvg}
+			c.Receiver <- annotationObject
+		}
 	}
+}
+
+type AnnotationObject struct {
+	Annotation
+	RawSvg string
 }

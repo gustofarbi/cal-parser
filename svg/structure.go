@@ -70,7 +70,7 @@ type Points struct {
 }
 
 type Common struct {
-	Raw string `xml:",innerxml"`
+	Raw    string   `xml:",innerxml"`
 	Values []string `xml:"data-name,attr"`
 }
 

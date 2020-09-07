@@ -1,48 +1,54 @@
 package svg
 
 import (
+	"regexp"
 	"strings"
 )
 
 func (c Calendar) Parse(svg Svg, scalingRatio float64) {
 	go c.StartReceiver()
-	c.Context = Context{} // todo
-	c.Context.Add([]Annotation{
+	context := Context{} // todo
+	context.Add([]Annotation{
 		Language{Attribute{"de"}},
 		Alignment{Attribute{"r"}},
 		Scaling{Attribute{scalingRatio}},
 		FormatWeekdayHeader{Attribute{"dt2"}},
 		FormatWeekdayPosition{Attribute{"nn2"}},
 	})
+
 	for _, g := range svg.Gs {
 		if strings.Contains(g.Id, "calendar") {
-			c.parseGroup(g)
+			parseGroup(g, context)
 		}
 	}
+
+	c.RemoveTexts()
 }
 
-func (c Calendar) parseGroup(g Group) {
-	c.Context.Update(g)
+func parseGroup(g Group, ctx Context) {
+	ctx = ctx.Merge(g)
 
-	if !c.RenderPrevNext && c.Context.RenderPrevNext() {
-		c.RenderPrevNext = true
+	if ctx.RenderPrevNext() {
+		ctx.Receiver <- RenderPrevNextMonth{Attribute{true}}
 	}
 
-	c.Context.HandleSpecialAnnotation(RenderMonthOnly{})
-	c.Context.HandleSpecialAnnotation(SkipWeek{})
-	c.Context.HandleSpecialAnnotation(LineSkipDay{})
-	c.Context.HandleSpecialAnnotation(WeekdayPosition{}) // todo: these need different kind of handling
-	c.Context.HandleSpecialAnnotation(LineWeekendElement{})
+	ctx.HandleSpecialAnnotation([]Annotation{
+		RenderMonthOnly{},
+		SkipWeek{},
+		LineSkipDay{},
+		LineWeekdayElement{},
+		LineWeekendElement{}, // todo: weekday position is missing
+	}, g.Raw)
 
 	for _, text := range g.Texts {
-		go c.parseText(text)
+		go parseText(text, ctx)
 	}
 	for _, group := range g.Gs {
-		c.parseGroup(group)
+		go parseGroup(group, ctx) // todo maybe not necessary
 	}
 }
 
-func (c Calendar) parseText(text Text) {
+func parseText(text Text, ctx Context) {
 	calendarText := CalendarText{
 		Position:   text.Position,
 		Content:    text.Content,
@@ -52,8 +58,13 @@ func (c Calendar) parseText(text Text) {
 	}
 
 	text.Tranform.Apply(calendarText)
-	c.Context.ApplyEarly(calendarText)
-	calendarText.Annotations = c.Context.Annotations
+	ctx.ApplyEarly(calendarText)
+	calendarText.Annotations = ctx.Annotations
 
-	c.Receiver <- calendarText
+	ctx.Receiver <- calendarText
+}
+
+func (c Calendar) RemoveTexts() {
+	reg := regexp.MustCompile("<text.*?/text>")
+	reg.ReplaceAllString(c.svgContent, "")
 }
