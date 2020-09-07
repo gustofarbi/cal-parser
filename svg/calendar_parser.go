@@ -5,10 +5,10 @@ import (
 	"strings"
 )
 
-func (c Calendar) Parse(svg Svg, svgRaw string, scalingRatio float64) {
+func (c *Calendar) Parse(svg Svg, svgRaw string, scalingRatio float64) {
 	c.svgContent = svgRaw
 	go c.StartReceiver()
-	context := NewContext(c.Receiver)
+	context := NewContext(c.Receiver, c.ReceiverWg)
 	context.Add([]Annotation{
 		Language{Attribute{"de"}},
 		Alignment{Attribute{"r"}},
@@ -22,14 +22,15 @@ func (c Calendar) Parse(svg Svg, svgRaw string, scalingRatio float64) {
 			parseGroup(g, context)
 		}
 	}
-
 	c.RemoveTexts()
+	c.ReceiverWg.Wait()
 }
 
-func parseGroup(g Group, ctx Context) {
-	ctx = ctx.Merge(g)
+func parseGroup(g Group, formerCtx Context) {
+	ctx := formerCtx.Merge(g.DataName)
 
 	if ctx.RenderPrevNext() {
+		ctx.ReceiverWg.Add(1)
 		ctx.Receiver <- RenderPrevNextMonth{Attribute{true}}
 	}
 
@@ -50,6 +51,7 @@ func parseGroup(g Group, ctx Context) {
 }
 
 func parseText(text Text, ctx Context) {
+	ctx = ctx.Merge(text.DataName)
 	calendarText := CalendarText{
 		Position:   text.Position,
 		Content:    text.Content,
@@ -59,13 +61,14 @@ func parseText(text Text, ctx Context) {
 	}
 
 	text.Tranform.Apply(calendarText)
-	ctx.ApplyEarly(calendarText)
+	ctx.ApplyEarly(&calendarText)
 	calendarText.Annotations = ctx.Annotations
 
+	ctx.ReceiverWg.Add(1)
 	ctx.Receiver <- calendarText
 }
 
-func (c Calendar) RemoveTexts() {
+func (c *Calendar) RemoveTexts() {
 	reg := regexp.MustCompile("<text.*?/text>")
 	reg.ReplaceAllString(c.svgContent, "")
 }

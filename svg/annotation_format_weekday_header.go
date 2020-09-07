@@ -6,7 +6,7 @@ type FormatWeekdayHeader struct {
 	Attribute
 }
 
-func (f FormatWeekdayHeader) Apply(text CalendarText) {
+func (f FormatWeekdayHeader) Apply(text *CalendarText) {
 	if text.WeekdayHeader == 0 {
 		return
 	}
@@ -34,8 +34,8 @@ func (f FormatWeekdayHeader) Matches(subject string) bool {
 
 func (f FormatWeekdayHeader) New(subject string) Annotation {
 	reg := regexp.MustCompile("^dt([129p]{1,2})")
-	val := reg.FindString(subject)
-	return FormatWeekdayHeader{Attribute{val}}
+	val := reg.FindStringSubmatch(subject)
+	return FormatWeekdayHeader{Attribute{val[1]}}
 }
 
 func (f FormatWeekdayHeader) Id() string {

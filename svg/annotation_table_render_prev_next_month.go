@@ -9,7 +9,7 @@ type RenderPrevNextMonth struct {
 	Attribute
 }
 
-func (r RenderPrevNextMonth) Apply(text CalendarText) {}
+func (r RenderPrevNextMonth) Apply(text *CalendarText) {}
 
 func (r RenderPrevNextMonth) Matches(subject string) bool {
 	return strings.Contains(subject, "npm=")

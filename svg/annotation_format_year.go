@@ -6,7 +6,7 @@ type FormatYear struct {
 	Attribute
 }
 
-func (f FormatYear) Apply(text CalendarText) {
+func (f FormatYear) Apply(text *CalendarText) {
 	if !text.IsYear {
 		return
 	}
@@ -23,8 +23,8 @@ func (f FormatYear) Matches(subject string) bool {
 
 func (f FormatYear) New(subject string) Annotation {
 	reg := regexp.MustCompile("^yn([24])")
-	val := reg.FindString(subject)
-	return FormatYear{Attribute{val}}
+	val := reg.FindStringSubmatch(subject)
+	return FormatYear{Attribute{val[1]}}
 }
 
 func (f FormatYear) Id() string {

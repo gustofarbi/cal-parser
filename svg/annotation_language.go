@@ -13,7 +13,7 @@ type Language struct {
 	Attribute
 }
 
-func (l Language) Apply(text CalendarText) {
+func (l Language) Apply(text *CalendarText) {
 	text.Language = l.Attr().(string)
 }
 

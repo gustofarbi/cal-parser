@@ -6,7 +6,7 @@ type Year struct {
 	Attribute
 }
 
-func (y Year) Apply(text CalendarText) {
+func (y Year) Apply(text *CalendarText) {
 	text.IsYear = true
 }
 

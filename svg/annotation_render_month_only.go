@@ -9,7 +9,7 @@ type RenderMonthOnly struct {
 	Attribute
 }
 
-func (r RenderMonthOnly) Apply(text CalendarText) {}
+func (r RenderMonthOnly) Apply(text *CalendarText) {}
 
 func (r RenderMonthOnly) Matches(subject string) bool {
 	reg := regexp.MustCompile("^m(\\d{1,2})")
@@ -18,7 +18,8 @@ func (r RenderMonthOnly) Matches(subject string) bool {
 
 func (r RenderMonthOnly) New(subject string) Annotation {
 	reg := regexp.MustCompile("^m(\\d{1,2})")
-	val, _ := strconv.ParseBool(reg.FindString(subject))
+	raw := reg.FindStringSubmatch(subject)
+	val, _ := strconv.ParseBool(raw[1])
 	return RenderMonthOnly{Attribute{val}}
 }
 

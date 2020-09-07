@@ -6,7 +6,7 @@ type FormatMonthText struct {
 	Attribute
 }
 
-func (f FormatMonthText) Apply(text CalendarText) {
+func (f FormatMonthText) Apply(text *CalendarText) {
 	if !text.IsMonth {
 		return
 	}
@@ -28,8 +28,8 @@ func (f FormatMonthText) Matches(subject string) bool {
 
 func (f FormatMonthText) New(subject string) Annotation {
 	reg := regexp.MustCompile("^mt([139])")
-	val := reg.FindString(subject)
-	return FormatMonthText{Attribute{val}}
+	val := reg.FindStringSubmatch(subject)
+	return FormatMonthText{Attribute{val[1]}}
 }
 
 func (f FormatMonthText) Id() string {

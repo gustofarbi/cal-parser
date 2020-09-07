@@ -9,7 +9,7 @@ type WeekdayHeader struct {
 	Attribute
 }
 
-func (w WeekdayHeader) Apply(text CalendarText) {
+func (w WeekdayHeader) Apply(text *CalendarText) {
 	text.WeekdayHeader = w.Attr().(int)
 }
 
@@ -19,7 +19,9 @@ func (w WeekdayHeader) Matches(subject string) bool {
 }
 
 func (w WeekdayHeader) New(subject string) Annotation {
-	val, _ := strconv.Atoi(subject)
+	reg := regexp.MustCompile("^d(\\d{1,2})")
+	raw := reg.FindStringSubmatch(subject)
+	val, _ := strconv.Atoi(raw[1])
 	return WeekdayHeader{Attribute{val}}
 }
 

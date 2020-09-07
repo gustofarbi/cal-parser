@@ -10,7 +10,7 @@ type FormatWeekdayPosition struct {
 	Attribute
 }
 
-func (f FormatWeekdayPosition) Apply(text CalendarText) {
+func (f FormatWeekdayPosition) Apply(text *CalendarText) {
 	if text.WeekdayPosition == 0 {
 		return
 	}
@@ -27,8 +27,8 @@ func (f FormatWeekdayPosition) Matches(subject string) bool {
 
 func (f FormatWeekdayPosition) New(subject string) Annotation {
 	reg := regexp.MustCompile("^nn([02]{1,2})")
-	val := reg.FindString(subject)
-	return FormatWeekdayPosition{Attribute{val}}
+	val := reg.FindStringSubmatch(subject)
+	return FormatWeekdayPosition{Attribute{val[1]}}
 }
 
 func (f FormatWeekdayPosition) Id() string {

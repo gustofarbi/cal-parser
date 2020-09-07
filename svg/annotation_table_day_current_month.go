@@ -4,7 +4,7 @@ type DayCurrentMonth struct {
 	Attribute
 }
 
-func (d DayCurrentMonth) Apply(text CalendarText) {
+func (d DayCurrentMonth) Apply(text *CalendarText) {
 	text.IsCurrentMonth = true
 }
 

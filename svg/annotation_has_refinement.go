@@ -4,7 +4,7 @@ type HasRefinement struct {
 	Attribute
 }
 
-func (h HasRefinement) Apply(text CalendarText) {
+func (h HasRefinement) Apply(text *CalendarText) {
 	text.HasRefinement = true
 }
 

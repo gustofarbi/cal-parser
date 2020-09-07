@@ -6,7 +6,7 @@ type Alignment struct {
 	Attribute
 }
 
-func (a Alignment) Apply(text CalendarText) {
+func (a Alignment) Apply(text *CalendarText) {
 	wand := imagick.NewMagickWand()
 	draw := imagick.NewDrawingWand()
 	err := draw.SetFontFamily(text.FontFamily)

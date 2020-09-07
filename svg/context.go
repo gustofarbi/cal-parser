@@ -9,13 +9,15 @@ type AnnotationCollection map[int]map[string][]Annotation
 
 type Context struct {
 	Receiver     chan interface{}
+	ReceiverWg   *sync.WaitGroup
 	Annotations  AnnotationCollection
 	RenderMonths []RenderMonthOnly
 }
 
-func NewContext(ch chan interface{}) Context {
+func NewContext(ch chan interface{}, wg *sync.WaitGroup) Context {
 	return Context{
 		ch,
+		wg,
 		make(map[int]map[string][]Annotation),
 		make([]RenderMonthOnly, 0),
 	}
@@ -26,6 +28,7 @@ var ctxLock sync.Mutex
 func (c Context) Merge(h HasAnnotations) (result Context) {
 	ctxLock.Lock()
 	result.Receiver = c.Receiver
+	result.ReceiverWg = c.ReceiverWg
 	result.Annotations = c.Annotations
 	result.Add(Parse(h))
 	ctxLock.Unlock()
@@ -55,7 +58,7 @@ func (c Context) Get(prio int, id string) []Annotation {
 	return make([]Annotation, 0)
 }
 
-func (c Context) ApplyEarly(text CalendarText) {
+func (c Context) ApplyEarly(text *CalendarText) {
 	for prio, annotations := range c.Annotations {
 		for id, group := range annotations {
 			for pos, single := range group {
@@ -68,7 +71,7 @@ func (c Context) ApplyEarly(text CalendarText) {
 	}
 }
 
-func (c Context) ApplyLate(text CalendarText) {
+func (c Context) ApplyLate(text *CalendarText) {
 	order := make([]int, len(c.Annotations))
 	for prio := range c.Annotations {
 		order = append(order, prio)
@@ -109,6 +112,7 @@ func (c Context) HandleSpecialAnnotation(annotations []Annotation, rawSvg string
 				x.Attribute.Val = pos[0].Attr().(int)
 			}
 			annotationObject := AnnotationObject{single, rawSvg}
+			c.ReceiverWg.Add(1)
 			c.Receiver <- annotationObject
 		}
 	}

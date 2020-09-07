@@ -9,7 +9,7 @@ type WeekdayPosition struct {
 	Attribute
 }
 
-func (w WeekdayPosition) Apply(text CalendarText) {
+func (w WeekdayPosition) Apply(text *CalendarText) {
 	text.WeekdayPosition = w.Attr().(int)
 }
 
@@ -19,7 +19,9 @@ func (w WeekdayPosition) Matches(subject string) bool {
 }
 
 func (w WeekdayPosition) New(subject string) Annotation {
-	val, _ := strconv.Atoi(subject)
+	reg := regexp.MustCompile("^n(\\d{1,2})")
+	raw := reg.FindStringSubmatch(subject)
+	val, _ := strconv.Atoi(raw[1])
 	return WeekdayPosition{Attribute{val}}
 }
 

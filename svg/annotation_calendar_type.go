@@ -9,7 +9,7 @@ type CalendarType struct {
 	Attribute
 }
 
-func (c CalendarType) Apply(text CalendarText) {
+func (c CalendarType) Apply(text *CalendarText) {
 	text.CalendarType = c.Attr().(string)
 }
 

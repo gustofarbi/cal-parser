@@ -8,7 +8,7 @@ type Capitalization struct {
 	Attribute
 }
 
-func (c Capitalization) Apply(text CalendarText) {
+func (c Capitalization) Apply(text *CalendarText) {
 	switch c.Attr().(string) {
 	case "upper":
 		text.Content = strings.ToUpper(text.Content)

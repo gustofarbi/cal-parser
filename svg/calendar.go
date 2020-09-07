@@ -1,5 +1,7 @@
 package svg
 
+import "sync"
+
 type Calendar struct {
 	texts                     []CalendarText
 	weekdayHeadingsTable      []CalendarText
@@ -21,6 +23,7 @@ type Calendar struct {
 	renderMonthsOnly map[int][]string
 
 	Receiver       chan interface{}
+	ReceiverWg     *sync.WaitGroup
 	RenderPrevNext bool
 	svgContent     string
 }
@@ -40,18 +43,21 @@ func NewCalendar() Calendar {
 		calendarWeeksTable:        make([]CalendarText, 0),
 		calendarWeeksLine:         make([]CalendarText, 0),
 
-		skipWeeks:                 make(map[int][]string),
-		skipDays:                  make(map[int][]string),
-		weekdayElements:           make(map[int][]string),
-		weekendElements:           make(map[int][]string),
-		renderMonthsOnly:          make(map[int][]string),
-		Receiver:                  make(chan interface{}),
-		RenderPrevNext:            false,
-		svgContent:                "",
+		skipWeeks:        make(map[int][]string),
+		skipDays:         make(map[int][]string),
+		weekdayElements:  make(map[int][]string),
+		weekendElements:  make(map[int][]string),
+		renderMonthsOnly: make(map[int][]string),
+
+		Receiver:   make(chan interface{}),
+		ReceiverWg: &sync.WaitGroup{},
+
+		RenderPrevNext: false,
+		svgContent:     "",
 	}
 }
 
-func (c Calendar) StartReceiver() {
+func (c *Calendar) StartReceiver() {
 	for {
 		select {
 		case item := <-c.Receiver:
@@ -75,10 +81,11 @@ func (c Calendar) StartReceiver() {
 				}
 			}
 		}
+		c.ReceiverWg.Done()
 	}
 }
 
-func (c Calendar) SaveText(x CalendarText) {
+func (c *Calendar) SaveText(x CalendarText) {
 	switch {
 	case x.WeekdayHeader > 0:
 		if x.CalendarType == "table" {

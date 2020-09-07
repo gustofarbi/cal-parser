@@ -1,7 +1,7 @@
 package svg
 
 type Annotation interface {
-	Apply(text CalendarText)
+	Apply(text *CalendarText)
 	Matches(subject string) bool
 	New(subject string) Annotation
 	Id() string
@@ -41,7 +41,7 @@ func init() {
 }
 
 func Parse(object HasAnnotations) []Annotation {
-	parsed := make([]Annotation, len(object.All()))
+	parsed := make([]Annotation, 0)
 	for _, subject := range object.All() {
 		for _, annotation := range registered {
 			if annotation.Matches(subject) {

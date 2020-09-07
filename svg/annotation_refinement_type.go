@@ -6,7 +6,7 @@ type RefinementType struct {
 	Attribute
 }
 
-func (r RefinementType) Apply(text CalendarText) {}
+func (r RefinementType) Apply(text *CalendarText) {}
 
 func (r RefinementType) Matches(subject string) bool {
 	reg := regexp.MustCompile("ref=([glrs])")
@@ -14,7 +14,9 @@ func (r RefinementType) Matches(subject string) bool {
 }
 
 func (r RefinementType) New(subject string) Annotation {
-	return RefinementType{Attribute{subject}}
+	reg := regexp.MustCompile("ref=([glrs])")
+	raw := reg.FindStringSubmatch(subject)
+	return RefinementType{Attribute{raw[1]}}
 }
 
 func (r RefinementType) Id() string {

@@ -4,7 +4,7 @@ type LineWeekendElement struct {
 	Attribute
 }
 
-func (l LineWeekendElement) Apply(text CalendarText) {
+func (l LineWeekendElement) Apply(text *CalendarText) {
 	text.IsWeekend = true
 }
 
