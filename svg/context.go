@@ -2,6 +2,7 @@ package svg
 
 import (
 	"sort"
+	"sync"
 )
 
 type AnnotationCollection map[int]map[string][]Annotation
@@ -20,20 +21,29 @@ func NewContext(ch chan interface{}) Context {
 	}
 }
 
+var ctxLock sync.Mutex
+
 func (c Context) Merge(h HasAnnotations) (result Context) {
+	ctxLock.Lock()
 	result.Receiver = c.Receiver
 	result.Annotations = c.Annotations
 	result.Add(Parse(h))
+	ctxLock.Unlock()
 
 	return result
 }
 
 func (c Context) Add(as []Annotation) {
 	for _, a := range as {
-		if c.Annotations[a.Priority()][a.Id()] == nil {
-			c.Annotations[a.Priority()][a.Id()] = make([]Annotation, 0)
+		if a != nil {
+			if _, ok := c.Annotations[a.Priority()]; !ok {
+				c.Annotations[a.Priority()] = make(map[string][]Annotation)
+			}
+			if c.Annotations[a.Priority()][a.Id()] == nil {
+				c.Annotations[a.Priority()][a.Id()] = make([]Annotation, 0)
+			}
+			c.Annotations[a.Priority()][a.Id()] = append(c.Annotations[a.Priority()][a.Id()], a)
 		}
-		c.Annotations[a.Priority()][a.Id()] = append(c.Annotations[a.Priority()][a.Id()], a)
 	}
 }
 

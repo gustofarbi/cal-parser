@@ -50,7 +50,6 @@ type Text struct {
 type Rect struct {
 	Common
 	Position
-	Content string `xml:",innerxml"`
 	Id      string `xml:"id,attr,omitempty"`
 	Fill    string `xml:"fill,attr"`
 }

@@ -18,7 +18,7 @@ func (c Calendar) Parse(svg Svg, svgRaw string, scalingRatio float64) {
 	})
 
 	for _, g := range svg.Gs {
-		if strings.Contains(g.Id, "calendar") {
+		if strings.Contains(g.Id, "month") {
 			parseGroup(g, context)
 		}
 	}
@@ -42,10 +42,10 @@ func parseGroup(g Group, ctx Context) {
 	}, g.Raw)
 
 	for _, text := range g.Texts {
-		go parseText(text, ctx)
+		parseText(text, ctx)
 	}
 	for _, group := range g.Gs {
-		go parseGroup(group, ctx) // todo maybe not necessary
+		parseGroup(group, ctx) // todo maybe not necessary
 	}
 }
 
