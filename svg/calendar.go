@@ -1,5 +1,11 @@
 package svg
 
+import (
+	"fmt"
+	"sync"
+	"time"
+)
+
 type Calendar struct {
 	texts                     []CalendarText
 	weekdayHeadingsTable      []CalendarText
@@ -21,6 +27,7 @@ type Calendar struct {
 	renderMonthsOnly map[int][]string
 
 	Receiver       chan interface{}
+	ReceiverWg     *sync.WaitGroup
 	RenderPrevNext bool
 	svgContent     string
 }
@@ -47,6 +54,7 @@ func NewCalendar() Calendar {
 		renderMonthsOnly: make(map[int][]string),
 
 		Receiver:   make(chan interface{}),
+		ReceiverWg: &sync.WaitGroup{},
 
 		RenderPrevNext: false,
 		svgContent:     "",
@@ -54,13 +62,18 @@ func NewCalendar() Calendar {
 }
 
 func (c *Calendar) StartReceiver() {
+	ticker := time.Tick(1 * time.Second)
 	for {
 		select {
+		case <-ticker:
+			fmt.Println("still running")
 		case item := <-c.Receiver:
 			switch x := item.(type) {
 			case CalendarText:
+				fmt.Println("received text")
 				c.SaveText(x)
 			case AnnotationObject:
+				fmt.Println("received annotation object")
 				switch o := x.Annotation.(type) {
 				case RenderPrevNextMonth:
 					if !c.RenderPrevNext {

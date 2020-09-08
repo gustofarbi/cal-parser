@@ -1,6 +1,8 @@
 package svg
 
 import (
+	"fmt"
+	"github.com/fogleman/gg"
 	"regexp"
 	"strings"
 )
@@ -8,7 +10,7 @@ import (
 func (c *Calendar) Parse(svg Svg, svgRaw string, scalingRatio float64) {
 	c.svgContent = svgRaw
 	go c.StartReceiver()
-	context := NewContext(c.Receiver)
+	context := NewContext(c.Receiver, c.ReceiverWg)
 	context.Add([]Annotation{
 		Language{Attribute{"de"}},
 		Alignment{Attribute{"r"}},
@@ -23,6 +25,7 @@ func (c *Calendar) Parse(svg Svg, svgRaw string, scalingRatio float64) {
 		}
 	}
 	c.RemoveTexts()
+	//c.ReceiverWg.Wait()
 }
 
 func parseGroup(g Group, formerCtx Context) {
@@ -41,7 +44,8 @@ func parseGroup(g Group, formerCtx Context) {
 	}, g.Raw)
 
 	for _, text := range g.Texts {
-		go parseText(text, ctx)
+		ctx.ReceiverWg.Add(1)
+		parseText(text, ctx)
 	}
 	for _, group := range g.Gs {
 		parseGroup(group, ctx) // todo maybe not necessary
@@ -58,6 +62,9 @@ func parseText(text Text, ctx Context) {
 		FontColor:  text.Fill,
 	}
 
+	// todo: text-size
+	calendarText.Position.Width, calendarText.Position.Height = calculateDimensions(
+		text.Content, text.FontFamily, text.FontSize)
 	text.Tranform.Apply(calendarText)
 	ctx.ApplyEarly(&calendarText)
 	calendarText.Annotations = ctx.Annotations
@@ -65,7 +72,33 @@ func parseText(text Text, ctx Context) {
 	ctx.Receiver <- calendarText
 }
 
+func calculateDimensions(text, fontString string, fontSize float64) (width, height float64) {
+	ctx := gg.NewContext(0, 0)
+	//fontPath, err := getFontFilePath(fontString)
+	//if err != nil {
+	//	panic(fmt.Sprintf("font-string could not be parsed: %s", fontString))
+	//}
+	ctx.LoadFontFace("AmaticSC-Regular.ttf", fontSize)
+	//ctx.LoadFontFace(fontPath, fontSize)
+	ctx.MeasureString(text)
+	return width, height
+}
+
+func getFontFilePath(fonts string) (string, error) {
+	fontFamilies := strings.Split(fonts, ",")
+
+	for _, family := range fontFamilies {
+		family := strings.Trim(family, " ")
+		fontPath, err := GetFont(family)
+		if err == nil {
+			return fontPath, nil
+		}
+	}
+
+	return "", fmt.Errorf("not match found for %s", fonts)
+}
+
 func (c *Calendar) RemoveTexts() {
 	reg := regexp.MustCompile("<text.*?/text>")
-	reg.ReplaceAllString(c.svgContent, "")
+	c.svgContent = reg.ReplaceAllString(c.svgContent, "")
 }

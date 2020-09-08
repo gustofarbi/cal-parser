@@ -9,13 +9,15 @@ type AnnotationCollection map[int]map[string][]Annotation
 
 type Context struct {
 	Receiver     chan interface{}
+	ReceiverWg   *sync.WaitGroup
 	Annotations  AnnotationCollection
 	RenderMonths []RenderMonthOnly
 }
 
-func NewContext(ch chan interface{}) Context {
+func NewContext(ch chan interface{}, wg *sync.WaitGroup) Context {
 	return Context{
 		ch,
+		wg,
 		make(map[int]map[string][]Annotation),
 		make([]RenderMonthOnly, 0),
 	}
@@ -26,6 +28,7 @@ var ctxLock sync.Mutex
 func (c Context) Merge(h HasAnnotations) (result Context) {
 	ctxLock.Lock()
 	result.Receiver = c.Receiver
+	result.ReceiverWg = c.ReceiverWg
 	result.Annotations = make(map[int]map[string][]Annotation)
 	for prio, group := range c.Annotations {
 		result.Annotations[prio] = make(map[string][]Annotation)
