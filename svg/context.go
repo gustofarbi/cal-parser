@@ -71,7 +71,7 @@ func (c Context) ApplyEarly(text *CalendarText) {
 			for pos, single := range group {
 				if single.Priority() < 0 {
 					single.Apply(text)
-					c.Annotations[prio][id] = append(c.Annotations[prio][id][:pos], c.Annotations[prio][id][pos+1:]...)
+					c.Annotations[prio][id][pos] = nil
 				}
 			}
 		}

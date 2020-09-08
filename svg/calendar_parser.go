@@ -36,7 +36,8 @@ func parseGroup(g Group, formerCtx Context) {
 	}
 
 	ctx.HandleSpecialAnnotation([]Annotation{
-		//RenderMonthOnly{}, // todo: other way
+		//RenderMonthOnly{},385	48786
+		//todo: other way
 		SkipWeek{},
 		LineSkipDay{},
 		LineWeekdayElement{},
