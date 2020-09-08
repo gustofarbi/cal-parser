@@ -22,6 +22,5 @@ func main() {
 	c.Parse(foo, string(data), 1.5)
 	c.Render()
 
-	fmt.Println("done parsing")
 	return
 }

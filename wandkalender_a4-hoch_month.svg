@@ -82,9 +82,9 @@
           <text id="_-n41" data-name="-n41" transform="translate(557.73225 987.96912)" font-size="12" fill="#b67e7e" font-family="Overpass-ExtraLight, Overpass" font-weight="200">41</text>
           <text id="_-n42-ref" data-name="-n42-ref" transform="translate(599.17853 987.68787)" font-size="12" fill="#b67e7e" font-family="Overpass-ExtraLight, Overpass" font-weight="200">42</text>
         </g>
-        <text id="september-mn02-ref" transform="translate(522.94569 262.48535)" font-size="216.04091" fill="#b67e7e" font-family="PlayfairDisplaySC-Italic, Playfair Display SC" font-style="italic">’09</text>
+        <text id="september-mn02-ref" data-name="mn02-ref" transform="translate(522.94569 262.48535)" font-size="216.04091" fill="#b67e7e" font-family="PlayfairDisplaySC-Italic, Playfair Display SC" font-style="italic">’09</text>
         <rect id="balken-ref" x="72.74235" y="954.97564" width="400.2143" height="70.93678" transform="translate(-717.59454 1263.29353) rotate(-90)" fill="#b67e7e"/>
-        <text id="september-mt9-lower-r" transform="translate(288.51514 1052.24023) rotate(-90)" font-size="53" fill="#fff" font-family="FogtwoNo5">september</text>
+        <text id="september-mt9-lower-r" data-name="mt9-lower-r" transform="translate(288.51514 1052.24023) rotate(-90)" font-size="53" fill="#fff" font-family="FogtwoNo5">september</text>
       </g>
     </g>
   </g>

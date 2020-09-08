@@ -36,7 +36,7 @@ func parseGroup(g Group, formerCtx Context) {
 	}
 
 	ctx.HandleSpecialAnnotation([]Annotation{
-		//RenderMonthOnly{},385	48786
+		//RenderMonthOnly{},
 		//todo: other way
 		SkipWeek{},
 		LineSkipDay{},
@@ -66,23 +66,26 @@ func parseText(text Text, ctx Context) {
 	// todo: text-size
 	calendarText.Position.Width, calendarText.Position.Height = calculateDimensions(
 		text.Content, text.FontFamily, text.FontSize)
-	text.Tranform.Apply(calendarText)
+	text.Tranform.Apply(&calendarText)
 	ctx.ApplyEarly(&calendarText)
 	calendarText.Annotations = ctx.Annotations
 
 	ctx.Receiver <- calendarText
 }
 
-func calculateDimensions(text, fontString string, fontSize float64) (width, height float64) {
+func calculateDimensions(text, fontString string, fontSize float64) (float64, float64) {
 	ctx := gg.NewContext(0, 0)
+	// todo uncomment when fonts are present
 	//fontPath, err := getFontFilePath(fontString)
 	//if err != nil {
 	//	panic(fmt.Sprintf("font-string could not be parsed: %s", fontString))
 	//}
-	ctx.LoadFontFace("AmaticSC-Regular.ttf", fontSize)
+	err := ctx.LoadFontFace("AmaticSC-Regular.ttf", fontSize)
+	if err != nil {
+		fmt.Println(err)
+	}
 	//ctx.LoadFontFace(fontPath, fontSize)
-	ctx.MeasureString(text)
-	return width, height
+	return ctx.MeasureString(text)
 }
 
 func getFontFilePath(fonts string) (string, error) {

@@ -6,14 +6,14 @@ type Transforms struct {
 	collection []Transformer
 }
 
-func (t Transforms) Apply(text CalendarText) {
+func (t Transforms) Apply(text *CalendarText) {
 	for _, transform := range t.collection {
-		transform.Apply(text.Position)
+		transform.Apply(&text.Position)
 	}
 }
 
 type Transformer interface {
-	Apply(object HasPosition)
+	Apply(object *Position)
 }
 
 type Translate struct {
@@ -32,21 +32,21 @@ type Matrix struct {
 	Values map[int]float64
 }
 
-func (t Translate) Apply(object HasPosition) {
-	object.Position().X += t.X
-	object.Position().Y += t.Y
+func (t Translate) Apply(object *Position) {
+	object.X += t.X
+	object.Y += t.Y
 }
 
-func (r Rotate) Apply(object HasPosition) {
-	object.Position().Rotation += r.AngleDeg
+func (r Rotate) Apply(object *Position) {
+	object.Rotation += r.AngleDeg
 }
 
-func (s Scale) Apply(object HasPosition) {
-	object.Position().Width *= s.ScaleX
-	object.Position().Height *= s.ScaleY
+func (s Scale) Apply(object *Position) {
+	object.Width *= s.ScaleX
+	object.Height *= s.ScaleY
 }
 
-func (m Matrix) Apply(object HasPosition) {
+func (m Matrix) Apply(object *Position) {
 	dx := m.Values[4]
 	dy := m.Values[5]
 	angle := math.Atan(m.Values[2] / m.Values[0])
@@ -54,9 +54,9 @@ func (m Matrix) Apply(object HasPosition) {
 	scaleY := m.Values[3] / math.Cos(angle)
 	angleDeg := -(angle * 180.0 / math.Pi)
 
-	object.Position().X += dx
-	object.Position().Y += dy
-	object.Position().Width *= scaleX
-	object.Position().Height *= scaleY
-	object.Position().Rotation += angleDeg
+	object.X += dx
+	object.Y += dy
+	object.Width *= scaleX
+	object.Height *= scaleY
+	object.Rotation += angleDeg
 }
