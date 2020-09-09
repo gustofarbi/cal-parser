@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"io/ioutil"
 	"svg/svg"
+	"time"
 )
 
 func main() {
@@ -20,7 +21,8 @@ func main() {
 
 	c := svg.NewCalendar()
 	c.Parse(foo, string(data), 1.5)
-	c.Render()
+	year, month, _ := time.Now().Date()
+	c.Render(year, int(month))
 
 	return
 }

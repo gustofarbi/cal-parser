@@ -67,7 +67,7 @@ func parseText(text Text, ctx Context) {
 	calendarText.Position.Width, calendarText.Position.Height = calculateDimensions(
 		text.Content, text.FontFamily, text.FontSize)
 	text.Tranform.Apply(&calendarText)
-	ctx.ApplyEarly(&calendarText)
+	ctx.Annotations.ApplyEarly(&calendarText)
 	calendarText.Annotations = ctx.Annotations
 
 	ctx.Receiver <- calendarText

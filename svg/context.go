@@ -65,27 +65,27 @@ func (c Context) Get(prio int, id string) []Annotation {
 	return make([]Annotation, 0)
 }
 
-func (c Context) ApplyEarly(text *CalendarText) {
-	for prio, annotations := range c.Annotations {
-		for id, group := range annotations {
-			for pos, single := range group {
-				if single.Priority() < 0 {
+func (a AnnotationCollection) ApplyEarly(text *CalendarText) {
+	for prio, annotations := range a {
+		if prio < 0 {
+			for id, group := range annotations {
+				for pos, single := range group {
 					single.Apply(text)
-					c.Annotations[prio][id][pos] = nil
+					a[prio][id][pos] = nil
 				}
 			}
 		}
 	}
 }
 
-func (c Context) ApplyLate(text *CalendarText) {
-	order := make([]int, len(c.Annotations))
-	for prio := range c.Annotations {
+func (a AnnotationCollection) ApplyLate(text *CalendarText) {
+	order := make([]int, len(a))
+	for prio := range a {
 		order = append(order, prio)
 	}
 	sort.Ints(order)
 	for prio := range order {
-		for _, group := range c.Annotations[prio] {
+		for _, group := range a[prio] {
 			for _, single := range group {
 				single.Apply(text)
 			}
