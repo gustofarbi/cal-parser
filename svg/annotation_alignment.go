@@ -1,27 +1,16 @@
 package svg
 
-import "gopkg.in/gographics/imagick.v3/imagick"
 
 type Alignment struct {
 	Attribute
 }
 
 func (a Alignment) Apply(text *CalendarText) {
-	wand := imagick.NewMagickWand()
-	draw := imagick.NewDrawingWand()
-	err := draw.SetFontFamily(text.FontFamily)
-	draw.SetFontSize(text.FontSize)
-	dims := wand.QueryFontMetrics(draw, text.Content)
-	if err != nil {
-		// todo
-	}
 	switch a.Attr().(string) {
 	case "c":
-		text.Position.X += (text.Position.Width - dims.TextWidth) / 2
-		break
+		//text.Position.X += (text.Position.Width - dims.TextWidth) / 2
 	case "r":
-		text.Position.X += text.Position.Width - dims.TextWidth
-		break
+		//text.Position.X += text.Position.Width - dims.TextWidth
 	}
 }
 

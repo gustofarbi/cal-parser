@@ -8,6 +8,8 @@ import (
 	"io/ioutil"
 	"os"
 	"os/exec"
+	"strconv"
+	"sync"
 )
 
 var weekdays = map[int]string{
@@ -20,12 +22,17 @@ var weekdays = map[int]string{
 	7: "Sonntag",
 }
 
-var ch chan ImageObject
+var (
+	ch = make(chan ImageObject)
+	wg = &sync.WaitGroup{}
 
-func (c *Calendar) Render(year, month int) {
-	ctx := renderSvg(c.svgContent)
+)
+
+func (c *Calendar) Render(year, month int, width float64) {
+	ctx := renderSvg(c.svgContent, width)
 	go startReceiver(ctx)
 	c.drawTexts(year, month)
+	ctx.SavePNG("saved.png")
 }
 
 type ImageObject struct {
@@ -35,7 +42,9 @@ type ImageObject struct {
 
 func startReceiver(canvas *gg.Context) {
 	for o := range ch {
+		fmt.Println("drawing text")
 		canvas.DrawImageAnchored(o.im.Image(), o.p.X, o.p.X, 0.5, 0.5)
+		wg.Done()
 	}
 }
 
@@ -43,6 +52,8 @@ func (c *Calendar) drawTexts(year, month int) {
 	if len(c.positionTableCurrentMonth) == 42 {
 		c.fillTable(year, month)
 	}
+	wg.Wait()
+	close(ch)
 }
 
 func drawSingleText(c *CalendarText) {
@@ -72,6 +83,7 @@ func drawSingleText(c *CalendarText) {
 	}
 	ctx.SetColor(fontColor)
 	ctx.DrawString(c.Content, r, r)
+
 	ch <- ImageObject{
 		ctx, image.Point{
 			X: int(c.Position.X),
@@ -101,6 +113,7 @@ func ParseHexColor(s string) (c color.RGBA, err error) {
 func (c *Calendar) fillTable(year, month int) {
 	for _, w := range c.weekdayHeadingsTable {
 		w.Content = weekdays[w.WeekdayHeader]
+		wg.Add(1)
 		go drawSingleText(&w)
 	}
 
@@ -109,7 +122,7 @@ func (c *Calendar) fillTable(year, month int) {
 	//}
 }
 
-func renderSvg(svg string) *gg.Context {
+func renderSvg(svg string, width float64) *gg.Context {
 	svgFile, _ := ioutil.TempFile("", "*.svg")
 	defer os.Remove(svgFile.Name())
 	pngFile, _ := ioutil.TempFile("", "*.png")
@@ -120,7 +133,8 @@ func renderSvg(svg string) *gg.Context {
 		fmt.Println(err)
 	}
 
-	cmd := exec.Command("rsvg-convert", "-w", "2000", svgFile.Name(), "-o", pngFile.Name())
+
+	cmd := exec.Command("/usr/local/bin/rsvg-convert", "-w", strconv.Itoa(int(width)), svgFile.Name(), "-o", pngFile.Name())
 	err = cmd.Run()
 	if err != nil {
 		fmt.Println(err)

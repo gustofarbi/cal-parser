@@ -5,9 +5,9 @@ type Scaling struct {
 }
 
 func (s Scaling) Apply(text *CalendarText) {
-	text.Position.X *= s.Attr().(float64)
-	text.Position.Y *= s.Attr().(float64)
-	text.FontSize *= s.Attr().(float64)
+	text.Position.X = text.Position.X * s.Attr().(float64)
+	text.Position.Y = text.Position.Y * s.Attr().(float64)
+	text.FontSize = text.FontSize * s.Attr().(float64)
 }
 
 func (s Scaling) Matches(subject string) bool {

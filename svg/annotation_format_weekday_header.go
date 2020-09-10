@@ -15,15 +15,12 @@ func (f FormatWeekdayHeader) Apply(text *CalendarText) {
 	switch format {
 	case "1":
 		text.Content = text.Content[:1]
-		break
 	case "2":
-	case "2p":
-		// todo: lang
 		text.Content = text.Content[:2]
-		if format == "2p" {
-			text.Content += "."
-		}
-		break
+	case "2p":
+		// todo: language
+		text.Content = text.Content[:2]
+		text.Content += "."
 	}
 }
 
@@ -45,4 +42,3 @@ func (f FormatWeekdayHeader) Id() string {
 func (f FormatWeekdayHeader) Priority() int {
 	return 20
 }
-

@@ -63,11 +63,18 @@ func NewCalendar() Calendar {
 
 func (c *Calendar) StartReceiver() {
 	ticker := time.Tick(1 * time.Second)
+	counter := 0
+loop:
 	for {
 		select {
 		case <-ticker:
+			counter++
+			if counter > 3 {
+				break loop
+			}
 			fmt.Println("still running")
 		case item := <-c.Receiver:
+			counter = 0
 			switch x := item.(type) {
 			case CalendarText:
 				fmt.Println("received text")

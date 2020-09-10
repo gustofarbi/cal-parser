@@ -15,8 +15,8 @@ func (c *Calendar) Parse(svg Svg, svgRaw string, scalingRatio float64) {
 		Language{Attribute{"de"}},
 		Alignment{Attribute{"r"}},
 		Scaling{Attribute{scalingRatio}},
-		FormatWeekdayHeader{Attribute{"dt2"}},
-		FormatWeekdayPosition{Attribute{"nn2"}},
+		FormatWeekdayHeader{Attribute{"2"}},
+		FormatWeekdayPosition{Attribute{"2"}},
 	})
 
 	for _, g := range svg.Gs {

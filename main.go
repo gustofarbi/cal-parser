@@ -4,6 +4,8 @@ import (
 	"encoding/xml"
 	"fmt"
 	"io/ioutil"
+	"strconv"
+	"strings"
 	"svg/svg"
 	"time"
 )
@@ -20,9 +22,13 @@ func main() {
 	}
 
 	c := svg.NewCalendar()
-	c.Parse(foo, string(data), 1.5)
+	dims := strings.Split(foo.ViewBox, " ")
+	size := 2000.0
+	widthViewbox, _ := strconv.ParseFloat(dims[2], 64)
+	scalingRatio := size / widthViewbox
+	c.Parse(foo, string(data), scalingRatio)
 	year, month, _ := time.Now().Date()
-	c.Render(year, int(month))
+	c.Render(year, int(month), size)
 
 	return
 }
