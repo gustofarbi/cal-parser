@@ -9,7 +9,7 @@ import (
 var availableFonts []string
 
 func init() {
-	fileInfos, err := ioutil.ReadDir("fonts/")
+	fileInfos, err := ioutil.ReadDir("resources/fonts/")
 
 	if err != nil {
 		fmt.Println("loading fonts: " + err.Error())

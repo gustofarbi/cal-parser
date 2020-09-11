@@ -42,8 +42,7 @@ type ImageObject struct {
 
 func startReceiver(canvas *gg.Context) {
 	for o := range ch {
-		fmt.Println("drawing text")
-		canvas.DrawImageAnchored(o.im.Image(), o.p.X, o.p.X, 0.5, 0.5)
+		canvas.DrawImageAnchored(o.im.Image(), o.p.X, o.p.Y, 0.5, 0.5)
 		wg.Done()
 	}
 }
@@ -58,16 +57,21 @@ func (c *Calendar) drawTexts(year, month int) {
 
 func drawSingleText(c *CalendarText) {
 	c.Annotations.ApplyLate(c)
-	w, h := c.Position.Width, c.Position.Height
+	ctx := gg.NewContext(0, 0)
+	err := ctx.LoadFontFace("AmaticSC-Regular.ttf", c.FontSize)
+	if err != nil {
+		panic(err)
+	}
+	w, h := ctx.MeasureString(c.Content)
 	var r float64
 	if w > h {
 		r = w
 	} else {
 		r = h
 	}
-	ctx := gg.NewContext(int(r*2), int(r*2))
+	ctx = gg.NewContext(int(r*2), int(r*2))
 	// todo fonts
-	err := ctx.LoadFontFace("AmaticSC-Regular.ttf", c.FontSize)
+	err = ctx.LoadFontFace("AmaticSC-Regular.ttf", c.FontSize)
 	if err != nil {
 		panic(err)
 	}
@@ -84,6 +88,7 @@ func drawSingleText(c *CalendarText) {
 	ctx.SetColor(fontColor)
 	ctx.DrawString(c.Content, r, r)
 
+	ctx.SavePNG(c.Content + ".png")
 	ch <- ImageObject{
 		ctx, image.Point{
 			X: int(c.Position.X),
@@ -114,7 +119,7 @@ func (c *Calendar) fillTable(year, month int) {
 	for _, w := range c.weekdayHeadingsTable {
 		w.Content = weekdays[w.WeekdayHeader]
 		wg.Add(1)
-		go drawSingleText(&w)
+		drawSingleText(&w)
 	}
 
 	//for pos := range c.positionTableCurrentMonth {

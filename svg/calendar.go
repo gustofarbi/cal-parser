@@ -1,7 +1,6 @@
 package svg
 
 import (
-	"fmt"
 	"sync"
 	"time"
 )
@@ -62,25 +61,22 @@ func NewCalendar() Calendar {
 }
 
 func (c *Calendar) StartReceiver() {
-	ticker := time.Tick(1 * time.Second)
+	ticker := time.Tick(100 * time.Millisecond)
 	counter := 0
 loop:
 	for {
 		select {
 		case <-ticker:
 			counter++
-			if counter > 3 {
+			if counter > 10 {
 				break loop
 			}
-			fmt.Println("still running")
 		case item := <-c.Receiver:
 			counter = 0
 			switch x := item.(type) {
 			case CalendarText:
-				fmt.Println("received text")
 				c.SaveText(x)
 			case AnnotationObject:
-				fmt.Println("received annotation object")
 				switch o := x.Annotation.(type) {
 				case RenderPrevNextMonth:
 					if !c.RenderPrevNext {
