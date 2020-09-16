@@ -6,18 +6,21 @@ import (
 )
 
 type Calendar struct {
-	texts                     []CalendarText
-	weekdayHeadingsTable      []CalendarText
-	weekdayHeadingsLine       []CalendarText
-	positionTableCurrentMonth []CalendarText
-	positionTableAnotherMonth []CalendarText
-	positionsLineWeekend      []CalendarText
-	positionsLineWeekday      []CalendarText
-	positionsLineDefault      []CalendarText
-	years                     []CalendarText
-	months                    []CalendarText
-	calendarWeeksTable        []CalendarText
-	calendarWeeksLine         []CalendarText
+	texts                []CalendarText
+	weekdayHeadingsTable map[int]CalendarText
+	weekdayHeadingsLine  map[int]CalendarText
+
+	positionTableCurrentMonth map[int]CalendarText
+	positionTableAnotherMonth map[int]CalendarText
+	positionsLineWeekend      map[int]CalendarText
+	positionsLineWeekday      map[int]CalendarText
+	positionsLineDefault      map[int]CalendarText
+
+	calendarWeeksTable []CalendarText
+	calendarWeeksLine  []CalendarText
+
+	years  []CalendarText
+	months []CalendarText
 
 	skipWeeks        map[int][]string
 	skipDays         map[int][]string
@@ -34,13 +37,13 @@ type Calendar struct {
 func NewCalendar() Calendar {
 	return Calendar{
 		texts:                     make([]CalendarText, 0),
-		weekdayHeadingsTable:      make([]CalendarText, 0),
-		weekdayHeadingsLine:       make([]CalendarText, 0),
-		positionTableCurrentMonth: make([]CalendarText, 0),
-		positionTableAnotherMonth: make([]CalendarText, 0),
-		positionsLineWeekend:      make([]CalendarText, 0),
-		positionsLineWeekday:      make([]CalendarText, 0),
-		positionsLineDefault:      make([]CalendarText, 0),
+		weekdayHeadingsTable:      make(map[int]CalendarText),
+		weekdayHeadingsLine:       make(map[int]CalendarText),
+		positionTableCurrentMonth: make(map[int]CalendarText),
+		positionTableAnotherMonth: make(map[int]CalendarText),
+		positionsLineWeekend:      make(map[int]CalendarText),
+		positionsLineWeekday:      make(map[int]CalendarText),
+		positionsLineDefault:      make(map[int]CalendarText),
 		years:                     make([]CalendarText, 0),
 		months:                    make([]CalendarText, 0),
 		calendarWeeksTable:        make([]CalendarText, 0),
@@ -100,24 +103,24 @@ func (c *Calendar) SaveText(x CalendarText) {
 	switch {
 	case x.WeekdayHeader > 0:
 		if x.CalendarType == "table" {
-			c.weekdayHeadingsTable = append(c.weekdayHeadingsTable, x)
+			c.weekdayHeadingsTable[x.WeekdayHeader] = x
 		} else if x.CalendarType == "line" {
-			c.weekdayHeadingsLine = append(c.weekdayHeadingsLine, x)
+			c.weekdayHeadingsLine[x.WeekdayHeader] = x
 		}
 	case x.WeekdayPosition > 0:
 		if x.CalendarType == "table" {
 			if x.IsCurrentMonth { // todo: switch these
-				c.positionTableAnotherMonth = append(c.positionTableAnotherMonth, x)
+				c.positionTableAnotherMonth[x.WeekdayPosition] = x
 			} else {
-				c.positionTableCurrentMonth = append(c.positionTableCurrentMonth, x)
+				c.positionTableCurrentMonth[x.WeekdayPosition] = x
 			}
 		} else if x.CalendarType == "line" {
 			if x.IsWeekend {
-				c.positionsLineWeekend = append(c.positionsLineWeekend, x)
+				c.positionsLineWeekend[x.WeekdayPosition] = x
 			} else if x.IsWeekday {
-				c.positionsLineWeekday = append(c.positionsLineWeekday, x)
+				c.positionsLineWeekday[x.WeekdayPosition] = x
 			} else {
-				c.positionsLineDefault = append(c.positionsLineDefault, x)
+				c.positionsLineDefault[x.WeekdayPosition] = x
 			}
 		}
 	case x.IsYear:
@@ -157,4 +160,6 @@ type CalendarText struct {
 	FormatMonth           string
 	FormatYear            string
 	HasRefinement         bool
+	CurrentMonth          int
+	CurrentYear           int
 }

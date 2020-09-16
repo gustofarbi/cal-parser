@@ -10,6 +10,7 @@ import (
 	"os/exec"
 	"strconv"
 	"sync"
+	"time"
 )
 
 var weekdays = map[int]string{
@@ -25,7 +26,6 @@ var weekdays = map[int]string{
 var (
 	ch = make(chan ImageObject)
 	wg = &sync.WaitGroup{}
-
 )
 
 func (c *Calendar) Render(year, month int, width float64) {
@@ -51,14 +51,36 @@ func (c *Calendar) drawTexts(year, month int) {
 	if len(c.positionTableCurrentMonth) == 42 {
 		c.fillTable(year, month)
 	}
+
+	if len(c.positionsLineDefault) == 31 || len(c.positionsLineWeekday) == 31 {
+		c.fillLine(year, month)
+	}
+
+	for _, text := range c.months {
+		wg.Add(1)
+		drawSingleText(&text, year, month)
+	}
+
+	for _, text := range c.years {
+		wg.Add(1)
+		drawSingleText(&text, year, month)
+	}
+
+	for _, text := range c.texts {
+		wg.Add(1)
+		drawSingleText(&text, year, month)
+	}
 	wg.Wait()
 	close(ch)
 }
 
-func drawSingleText(c *CalendarText) {
+func drawSingleText(c *CalendarText, year, month int) {
+	c.CurrentMonth = month
+	c.CurrentYear = year
 	c.Annotations.ApplyLate(c)
 	ctx := gg.NewContext(0, 0)
-	err := ctx.LoadFontFace("AmaticSC-Regular.ttf", c.FontSize)
+	fontPath, err := getFontFilePath(c.FontFamily)
+	err = ctx.LoadFontFace(fontPath, c.FontSize)
 	if err != nil {
 		panic(err)
 	}
@@ -71,7 +93,7 @@ func drawSingleText(c *CalendarText) {
 	}
 	ctx = gg.NewContext(int(r*2), int(r*2))
 	// todo fonts
-	err = ctx.LoadFontFace("AmaticSC-Regular.ttf", c.FontSize)
+	err = ctx.LoadFontFace(fontPath, c.FontSize)
 	if err != nil {
 		panic(err)
 	}
@@ -88,7 +110,6 @@ func drawSingleText(c *CalendarText) {
 	ctx.SetColor(fontColor)
 	ctx.DrawString(c.Content, r, r)
 
-	ctx.SavePNG(c.Content + ".png")
 	ch <- ImageObject{
 		ctx, image.Point{
 			X: int(c.Position.X),
@@ -119,12 +140,42 @@ func (c *Calendar) fillTable(year, month int) {
 	for _, w := range c.weekdayHeadingsTable {
 		w.Content = weekdays[w.WeekdayHeader]
 		wg.Add(1)
-		drawSingleText(&w)
+		drawSingleText(&w, year, month)
 	}
 
-	//for pos := range c.positionTableCurrentMonth {
-	//
-	//}
+	currentDate := time.Date(year, time.Month(month), 1, 12, 0, 0, 0, time.Local)
+	startWeekday := currentDate.Weekday()
+loop:
+	for i := 0; i < 7; i++ {
+		for d := int(startWeekday); d < 7; d++ {
+			if int(currentDate.Month()) == month {
+				text := c.positionTableCurrentMonth[i*7+d]
+				text.Content = strconv.Itoa(currentDate.Day())
+				wg.Add(1)
+				drawSingleText(&text, year, month)
+				currentDate = currentDate.AddDate(0, 0, 1)
+				startWeekday = 0
+			} else {
+				break loop
+			}
+		}
+	}
+}
+
+func (c *Calendar) fillLine(year, month int) {
+	first := time.Date(year, time.Month(month), 1, 12, 0, 0, 0, time.Local)
+	counter := 1
+	for int(first.Month()) == month {
+		header, ok := c.weekdayHeadingsLine[counter]
+		if !ok {
+			panic("header not set: " + strconv.Itoa(counter))
+		}
+		header.Content = weekdays[int(first.Weekday())%7+1]
+		first = first.Add(24 * time.Hour)
+		counter++
+		wg.Add(1) // todo do this in the method itself
+		drawSingleText(&header, year, month)
+	}
 }
 
 func renderSvg(svg string, width float64) *gg.Context {
@@ -137,7 +188,6 @@ func renderSvg(svg string, width float64) *gg.Context {
 	if err != nil {
 		fmt.Println(err)
 	}
-
 
 	cmd := exec.Command("/usr/local/bin/rsvg-convert", "-w", strconv.Itoa(int(width)), svgFile.Name(), "-o", pngFile.Name())
 	err = cmd.Run()

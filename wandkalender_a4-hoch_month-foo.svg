@@ -1,0 +1,118 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 841.88976 1190.55118">
+  <defs>
+    <clipPath id="clip-path">
+      <rect x="346.16259" y="96.75518" width="495.72717" height="508.62283" fill="none"/>
+    </clipPath>
+    <clipPath id="clip-path-2">
+      <rect y="96.75518" width="333.89547" height="508.62283" fill="none"/>
+    </clipPath>
+    <clipPath id="clip-path-3">
+      <polygon points="-1062.697 1190.551 -888.137 1190.551 -398.444 1190.551 -220.807 1190.551 -220.807 0 -1062.697 0 -1062.697 1190.551" fill="none"/>
+    </clipPath>
+  </defs>
+  <title>wandkalender_a3-hoch</title>
+  <g id="month">
+    <g id="background">
+      <rect id="_Rechteck_" data-name="&lt;Rechteck&gt;" x="-0.68552" y="0.68556" width="841.88976" height="1190.5511" fill="#fff"/>
+    </g>
+    <g id="layout-area">
+      <rect id="Rechteck" x="-0.6832" y="0.68556" width="841.88513" height="604.69245" fill="#9c9b9b"/>
+    </g>
+    <g id="slots">
+      <g clip-path="url(#clip-path)">
+        <image width="3831" height="2554" transform="translate(191.92207 96.75518) scale(0.19915)" xlink:href="toa-heftiba-9vNFtkm-Pus-unsplash.jpg"/>
+      </g>
+      <g clip-path="url(#clip-path-2)">
+        <image width="2624" height="3936" transform="translate(-21.27261 -30.07029) scale(0.17448)" xlink:href="toa-heftiba-2ey7dmVEQv4-unsplash%20(2).jpg"/>
+      </g>
+    </g>
+    <g id="calendar">
+      <g id="_-line" data-name="-line">
+        <g id="Nummern-nn2-c">
+          <text id="_-n1" data-name="-n1" transform="matrix(0.78247, -0.6227, 0.62269, 0.78246, 301.41912, 745.59241)" font-size="14.41731" fill="#010000" font-family="Overpass-Regular, Overpass">1</text>
+          <text id="_-n2" data-name="-n2" transform="matrix(0.89229, -0.45148, 0.45148, 0.89228, 326.30691, 728.99662)" font-size="14.41731" fill="#010000" font-family="Overpass-Regular, Overpass">2</text>
+          <text id="_-n3" data-name="-n3" transform="matrix(0.90004, -0.43584, 0.43584, 0.90003, 357.71603, 715.13677)" font-size="14.41731" fill="#010000" font-family="Overpass-Regular, Overpass">3</text>
+          <text id="_-n4" data-name="-n4" transform="translate(388.83739 706.30805) rotate(-11.3505)" font-size="14.41731" fill="#010000" font-family="Overpass-Regular, Overpass">4</text>
+          <text id="_-n5" data-name="-n5" transform="matrix(0.9991, 0.04267, -0.04267, 0.99909, 421.94227, 702.84021)" font-size="14.41731" fill="#010000" font-family="Overpass-Regular, Overpass">5</text>
+          <text id="_-n6" data-name="-n6" transform="translate(454.99016 706.29118) rotate(13.49261)" font-size="14.41731" fill="#010000" font-family="Overpass-Regular, Overpass">6</text>
+          <text id="_-n7" data-name="-n7" transform="translate(486.4658 714.83335) rotate(25.36092)" font-size="14.41731" fill="#010000" font-family="Overpass-Regular, Overpass">7</text>
+          <text id="_-n8" data-name="-n8" transform="translate(515.57882 727.69677) rotate(36.65985)" font-size="14.41731" fill="#010000" font-family="Overpass-Regular, Overpass">8</text>
+          <text id="_-n9" data-name="-n9" transform="translate(543.7396 748.23971) rotate(35.8368)" font-size="14.41731" fill="#010000" font-family="Overpass-Regular, Overpass">9</text>
+          <text id="_-n10" data-name="-n10" transform="translate(566.31067 772.47246) rotate(47.55079)" font-size="14.41731" fill="#010000" font-family="Overpass-Regular, Overpass">10</text>
+          <text id="_-n11" data-name="-n11" transform="translate(588.86569 803.31604) rotate(63.62584)" font-size="14.41731" fill="#010000" font-family="Overpass-Regular, Overpass">11</text>
+          <text id="_-n12" data-name="-n12" transform="translate(602.99458 835.36214) rotate(74.80001)" font-size="14.41731" fill="#010000" font-family="Overpass-Regular, Overpass">12</text>
+          <text id="_-n13" data-name="-n13" transform="matrix(0.05866, 0.99829, -0.99828, 0.05866, 609.98269, 873.43644)" font-size="14.41731" fill="#010000" font-family="Overpass-Regular, Overpass">13</text>
+          <text id="_-n14" data-name="-n14" transform="translate(609.43267 911.89999) rotate(95.19178)" font-size="14.41731" fill="#010000" font-family="Overpass-Regular, Overpass">14</text>
+          <text id="_-n15" data-name="-n15" transform="translate(601.84202 950.32193) rotate(106.73645)" font-size="14.41731" fill="#010000" font-family="Overpass-Regular, Overpass">15</text>
+          <text id="_-n16" data-name="-n16" transform="matrix(-0.50799, 0.86138, -0.86137, -0.50798, 587.3976, 985.42354)" font-size="14.41731" fill="#010000" font-family="Overpass-Regular, Overpass">16</text>
+          <text id="_-n17" data-name="-n17" transform="matrix(-0.66846, 0.74377, -0.74376, -0.66845, 564.75203, 1017.40625)" font-size="14.41731" fill="#010000" font-family="Overpass-Regular, Overpass">17</text>
+          <text id="_-n18" data-name="-n18" transform="translate(537.46484 1042.52139) rotate(139.60981)" font-size="14.41731" fill="#010000" font-family="Overpass-Regular, Overpass">18</text>
+          <text id="_-n19" data-name="-n19" transform="translate(505.4719 1063.31546) rotate(151.84814)" font-size="14.41731" fill="#010000" font-family="Overpass-Regular, Overpass">19</text>
+          <text id="_-n20" data-name="-n20" transform="translate(469.60519 1077.33012) rotate(168.60692)" font-size="14.41731" fill="#010000" font-family="Overpass-Regular, Overpass">20</text>
+          <text id="_-n21" data-name="-n21" transform="translate(427.99257 1082.20589) rotate(178.36856)" font-size="14.41731" fill="#010000" font-family="Overpass-Regular, Overpass">21</text>
+          <text id="_-n22" data-name="-n22" transform="translate(389.13129 1081.14997) rotate(-166.50739)" font-size="14.41731" fill="#010000" font-family="Overpass-Regular, Overpass">22</text>
+          <text id="_-n23" data-name="-n23" transform="translate(349.2004 1069.69907) rotate(-153.6612)" font-size="14.41731" fill="#010000" font-family="Overpass-Regular, Overpass">23</text>
+          <text id="_-n24" data-name="-n24" transform="translate(312.57677 1049.44462) rotate(-139.79072)" font-size="14.41731" fill="#010000" font-family="Overpass-Regular, Overpass">24</text>
+          <text id="_-n25" data-name="-n25" transform="matrix(-0.63464, -0.77282, 0.77281, -0.63463, 281.0494, 1021.25551)" font-size="14.41731" fill="#010000" font-family="Overpass-Regular, Overpass">25</text>
+          <text id="_-n26" data-name="-n26" transform="translate(257.10678 986.53275) rotate(-121.50754)" font-size="14.41731" fill="#010000" font-family="Overpass-Regular, Overpass">26</text>
+          <text id="_-n27" data-name="-n27" transform="matrix(-0.2442, -0.96973, 0.96972, -0.2442, 239.86539, 949.32056)" font-size="14.41731" fill="#010000" font-family="Overpass-Regular, Overpass">27</text>
+          <text id="_-n28" data-name="-n28" transform="translate(231.31317 908.91809) rotate(-89.7055)" font-size="14.41731" fill="#010000" font-family="Overpass-Regular, Overpass">28</text>
+          <text id="_-n29" data-name="-n29" transform="translate(233.22174 867.36689) rotate(-76.50739)" font-size="14.41731" fill="#010000" font-family="Overpass-Regular, Overpass">29</text>
+          <text id="_-n30" data-name="-n30" transform="translate(242.79672 826.41812) rotate(-66.06741)" font-size="14.41731" fill="#010000" font-family="Overpass-Regular, Overpass">30</text>
+          <text id="_-n31" data-name="-n31" transform="matrix(0.61373, -0.78953, 0.78952, 0.61372, 262.05715, 789.31152)" font-size="14.41731" fill="#010000" font-family="Overpass-Regular, Overpass">31</text>
+        </g>
+        <g id="Tage-dt1-lower-c-ref">
+          <text id="_-d1" data-name="-d1" transform="matrix(0.78247, -0.6227, 0.62269, 0.78246, 316.73118, 767.28897)" font-size="9.912" fill="#7c152c" font-family="Overpass-Regular, Overpass">m</text>
+          <text id="_-d2" data-name="-d2" transform="matrix(0.89229, -0.45148, 0.45148, 0.89228, 340.56228, 751.36892)" font-size="9.912" fill="#7c152c" font-family="Overpass-Regular, Overpass">d</text>
+          <text id="_-d3" data-name="-d3" transform="matrix(0.90004, -0.43584, 0.43584, 0.90003, 366.31043, 740.10404)" font-size="9.912" fill="#7c152c" font-family="Overpass-Regular, Overpass">m</text>
+          <text id="_-d4" data-name="-d4" transform="translate(394.56406 732.07753) rotate(-11.3505)" font-size="9.912" fill="#7c152c" font-family="Overpass-Regular, Overpass">d</text>
+          <text id="_-d8" data-name="-d8" transform="translate(502.37106 750.46358) rotate(36.65985)" font-size="9.912" fill="#7c152c" font-family="Overpass-Regular, Overpass">m</text>
+          <text id="_-d9" data-name="-d9" transform="translate(527.71448 768.9512) rotate(35.8368)" font-size="9.912" fill="#7c152c" font-family="Overpass-Regular, Overpass">d</text>
+          <text id="_-d10" data-name="-d10" transform="translate(547.81888 790.84011) rotate(47.55079)" font-size="9.912" fill="#7c152c" font-family="Overpass-Regular, Overpass">m</text>
+          <text id="_-d11" data-name="-d11" transform="translate(566.65641 817.49812) rotate(63.62584)" font-size="9.912" fill="#7c152c" font-family="Overpass-Regular, Overpass">d</text>
+          <text id="_-d12" data-name="-d12" transform="translate(579.17794 847.78031) rotate(74.80001)" font-size="9.912" fill="#7c152c" font-family="Overpass-Regular, Overpass">f</text>
+          <text id="_-d13" data-name="-d13" transform="matrix(0.05866, 0.99829, -0.99828, 0.05866, 584.25011, 879.98356)" font-size="9.912" fill="#7c152c" font-family="Overpass-Regular, Overpass">s</text>
+          <text id="_-d14" data-name="-d14" transform="translate(583.21081 913.22697) rotate(95.19178)" font-size="9.912" fill="#7c152c" font-family="Overpass-Regular, Overpass">s</text>
+          <text id="_-d15" data-name="-d15" transform="translate(576.43932 944.39226) rotate(106.73645)" font-size="9.912" fill="#7c152c" font-family="Overpass-Regular, Overpass">m</text>
+          <text id="_-d16" data-name="-d16" transform="matrix(-0.50799, 0.86138, -0.86137, -0.50798, 562.91129, 975.53051)" font-size="9.912" fill="#7c152c" font-family="Overpass-Regular, Overpass">d</text>
+          <text id="_-d17" data-name="-d17" transform="matrix(-0.66846, 0.74377, -0.74376, -0.66845, 544.14214, 1001.31051)" font-size="9.912" fill="#7c152c" font-family="Overpass-Regular, Overpass">m</text>
+          <text id="_-d18" data-name="-d18" transform="translate(519.02201 1024.07298) rotate(139.60981)" font-size="9.912" fill="#7c152c" font-family="Overpass-Regular, Overpass">d</text>
+          <text id="_-d19" data-name="-d19" transform="translate(490.12891 1041.89989) rotate(151.84814)" font-size="9.912" fill="#7c152c" font-family="Overpass-Regular, Overpass">f</text>
+          <text id="_-d20" data-name="-d20" transform="translate(457.77409 1052.98622) rotate(168.60692)" font-size="9.912" fill="#7c152c" font-family="Overpass-Regular, Overpass">s</text>
+          <text id="_-d21" data-name="-d21" transform="translate(423.45635 1056.19766) rotate(178.36856)" font-size="9.912" fill="#7c152c" font-family="Overpass-Regular, Overpass">s</text>
+          <text id="_-d22" data-name="-d22" transform="translate(390.45217 1054.40355) rotate(-166.50739)" font-size="9.912" fill="#7c152c" font-family="Overpass-Regular, Overpass">m</text>
+          <text id="_-d23" data-name="-d23" transform="translate(355.11719 1043.23389) rotate(-153.6612)" font-size="9.912" fill="#7c152c" font-family="Overpass-Regular, Overpass">d</text>
+          <text id="_-d24" data-name="-d24" transform="translate(325.17654 1025.6421) rotate(-139.79072)" font-size="9.912" fill="#7c152c" font-family="Overpass-Regular, Overpass">m</text>
+          <text id="_-d25" data-name="-d25" transform="matrix(-0.63464, -0.77282, 0.77281, -0.63463, 297.56544, 999.82262)" font-size="9.912" fill="#7c152c" font-family="Overpass-Regular, Overpass">d</text>
+          <text id="_-d26" data-name="-d26" transform="translate(276.97745 968.69168) rotate(-121.50754)" font-size="9.912" fill="#7c152c" font-family="Overpass-Regular, Overpass">f</text>
+          <text id="_-d27" data-name="-d27" transform="matrix(-0.2442, -0.96973, 0.96972, -0.2442, 264.02179, 937.05713)" font-size="9.912" fill="#7c152c" font-family="Overpass-Regular, Overpass">s</text>
+          <text id="_-d28" data-name="-d28" transform="translate(257.84748 901.56803) rotate(-89.7055)" font-size="9.912" fill="#7c152c" font-family="Overpass-Regular, Overpass">s</text>
+          <text id="_-d29" data-name="-d29" transform="translate(260.23415 867.81359) rotate(-76.50739)" font-size="9.912" fill="#7c152c" font-family="Overpass-Regular, Overpass">m</text>
+          <text id="_-d30" data-name="-d30" transform="translate(269.70572 831.25001) rotate(-66.06741)" font-size="9.912" fill="#7c152c" font-family="Overpass-Regular, Overpass">d</text>
+          <text id="_-d31" data-name="-d31" transform="matrix(0.61373, -0.78953, 0.78952, 0.61372, 285.43964, 802.31788)" font-size="9.912" fill="#7c152c" font-family="Overpass-Regular, Overpass">m</text>
+          <text id="_-d5" data-name="-d5" transform="matrix(0.9991, 0.04267, -0.04267, 0.99909, 424.23986, 729.398)" font-size="9.912" fill="#7c152c" font-family="Overpass-Regular, Overpass">f</text>
+          <text id="_-d6" data-name="-d6" transform="translate(451.84512 732.60392) rotate(13.49261)" font-size="9.912" fill="#7c152c" font-family="Overpass-Regular, Overpass">s</text>
+          <text id="_-d7" data-name="-d7" transform="translate(478.45195 740.03257) rotate(25.36092)" font-size="9.912" fill="#7c152c" font-family="Overpass-Regular, Overpass">s</text>
+        </g>
+      </g>
+      <text id="_09-mn02-c-ref" data-name="09-mn02-c-ref" transform="translate(322.70911 947.56396)" font-size="156.95488" fill="#1d1d1b" font-family="PlayfairDisplay-Regular, Playfair Display" font-weight="800">09</text>
+      <text id="september-mt9-lower-c-ref" transform="translate(354.922 839.56201)" font-size="28.36325" fill="#1d1d1b" font-family="PlayfairDisplay-Regular, Playfair Display" font-weight="800">september</text>
+    </g>
+    <g id="cliparts">
+      <line x1="614.79889" y1="683.86324" x2="801.07375" y2="683.86324" fill="none" stroke="#1d1d1b" stroke-miterlimit="10" stroke-width="0.5"/>
+      <line x1="614.79889" y1="706.41712" x2="801.07375" y2="706.41712" fill="none" stroke="#1d1d1b" stroke-miterlimit="10" stroke-width="0.5"/>
+      <line x1="614.79889" y1="728.97099" x2="801.07375" y2="728.97099" fill="none" stroke="#1d1d1b" stroke-miterlimit="10" stroke-width="0.5"/>
+      <line x1="614.79889" y1="751.52487" x2="801.07375" y2="751.52487" fill="none" stroke="#1d1d1b" stroke-miterlimit="10" stroke-width="0.5"/>
+    </g>
+    <g id="texts">
+      <text id="_calendar.notes_" data-name="[calendar.notes]" transform="translate(614.79871 663.39551)" font-size="15" fill="#1d1d1b" font-family="PlayfairDisplay-Regular, Playfair Display"><tspan xml:space="preserve">notizen                                    </tspan></text>
+    </g>
+  </g>
+  <g id="cover">
+    <g id="slots-2" data-name="slots">
+      <g clip-path="url(#clip-path-3)">
+        <image width="3936" height="2624" transform="translate(-1635.67363 -92.55435) scale(0.48925)" xlink:href="toa-heftiba-a4p6EY3me4s-unsplash.jpg"/>
+      </g>
+    </g>
+  </g>
+</svg>

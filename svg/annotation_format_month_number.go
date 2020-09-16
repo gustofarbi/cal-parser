@@ -2,6 +2,7 @@ package svg
 
 import (
 	"regexp"
+	"strconv"
 )
 
 type FormatMonthNumber struct {
@@ -13,10 +14,9 @@ func (f FormatMonthNumber) Apply(text *CalendarText) {
 		return
 	}
 
-	// todo
-	switch f.Attr().(string) {
-	case "02":
-	case "2":
+	text.Content = strconv.Itoa(text.CurrentMonth)
+	if f.Attr().(string) == "02" && len(text.Content) == 1 {
+		text.Content = "0" + text.Content
 	}
 }
 
@@ -38,4 +38,3 @@ func (f FormatMonthNumber) Id() string {
 func (f FormatMonthNumber) Priority() int {
 	return 20
 }
-

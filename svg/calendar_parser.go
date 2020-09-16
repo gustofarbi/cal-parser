@@ -58,7 +58,7 @@ func parseText(text Text, ctx Context) {
 	calendarText := CalendarText{
 		Position:   text.Position,
 		Content:    text.Content,
-		FontSize:   text.FontSize * 1.5, // todo rm
+		FontSize:   text.FontSize,
 		FontFamily: text.FontFamily,
 		FontColor:  text.Fill,
 	}
@@ -75,16 +75,11 @@ func parseText(text Text, ctx Context) {
 
 func calculateDimensions(text, fontString string, fontSize float64) (float64, float64) {
 	ctx := gg.NewContext(0, 0)
-	// todo uncomment when fonts are present
-	//fontPath, err := getFontFilePath(fontString)
-	//if err != nil {
-	//	panic(fmt.Sprintf("font-string could not be parsed: %s", fontString))
-	//}
-	err := ctx.LoadFontFace("AmaticSC-Regular.ttf", fontSize)
+	fontPath, err := getFontFilePath(fontString)
 	if err != nil {
-		fmt.Println(err)
+		panic(fmt.Sprintf("font-string could not be parsed: %s", fontString))
 	}
-	//ctx.LoadFontFace(fontPath, fontSize)
+	ctx.LoadFontFace(fontPath, fontSize)
 	return ctx.MeasureString(text)
 }
 

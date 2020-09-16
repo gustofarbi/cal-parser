@@ -12,7 +12,7 @@ import (
 
 func main() {
 	var foo svg.Svg
-	data, err := ioutil.ReadFile("wandkalender_a4-hoch_month.svg")
+	data, err := ioutil.ReadFile("wandkalender_a4-hoch_month-foo.svg")
 	if err != nil {
 		fmt.Errorf("shit happened: %s", err)
 	}
@@ -28,7 +28,7 @@ func main() {
 	scalingRatio := size / widthViewbox
 	c.Parse(foo, string(data), scalingRatio)
 	year, month, _ := time.Now().Date()
-	c.Render(year, int(month), size)
+	c.Render(year, int(month)+1, size)
 
 	return
 }
