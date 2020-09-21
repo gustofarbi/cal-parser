@@ -6,6 +6,7 @@ import (
 	"image"
 	"image/color"
 	"io/ioutil"
+	"math"
 	"os"
 	"os/exec"
 	"strconv"
@@ -91,6 +92,7 @@ func drawSingleText(c *CalendarText, year, month int) {
 	} else {
 		r = h
 	}
+	r = math.Sqrt(w*w + h*h)
 	ctx = gg.NewContext(int(r*2), int(r*2))
 	// todo fonts
 	err = ctx.LoadFontFace(fontPath, c.FontSize)
@@ -176,6 +178,32 @@ func (c *Calendar) fillLine(year, month int) {
 		wg.Add(1) // todo do this in the method itself
 		drawSingleText(&header, year, month)
 	}
+	first = time.Date(year, time.Month(month), 1, 12, 0, 0, 0, time.Local)
+	counter = 1
+	for int(first.Month()) == month {
+		isWeekend := first.Weekday() == time.Saturday || first.Weekday() == time.Sunday
+		c.fillPositionLine(counter, year, month, isWeekend)
+		counter++
+		first = first.Add(24 * time.Hour)
+	}
+}
+
+func (c *Calendar) fillPositionLine(position, year, month int, isWeekend bool) {
+	var pos CalendarText
+	var ok bool
+	if isWeekend {
+		pos, ok = c.positionsLineWeekend[position]
+	} else {
+		pos, ok = c.positionsLineWeekday[position]
+	}
+	if !ok {
+		pos, ok = c.positionsLineDefault[position]
+		if !ok {
+			panic("no position found: " + strconv.Itoa(position))
+		}
+	}
+	wg.Add(1)
+	drawSingleText(&pos, year, month)
 }
 
 func renderSvg(svg string, width float64) *gg.Context {

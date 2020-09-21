@@ -121,9 +121,10 @@ func (t *Transforms) UnmarshalXMLAttr(attr xml.Attr) error {
 			break
 		case strings.Contains(s, "matrix"):
 			reg := regexp.MustCompile("\\(([-+.\\d\\s,]+)\\)")
-			val := reg.FindAllStringSubmatch(s, -1)
+			val := reg.FindStringSubmatch(s)
 			matrix := make(map[int]float64, len(val))
-			for i, value := range val[0] {
+			parts := strings.Split(val[1], ",")
+			for i, value := range parts {
 				parsedValue, _ := strconv.ParseFloat(strings.TrimSpace(value), 64)
 				matrix[i] = parsedValue
 			}
