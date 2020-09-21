@@ -28,8 +28,8 @@ func main() {
 	size := 2000.0
 	widthViewbox, _ := strconv.ParseFloat(dims[2], 64)
 	scalingRatio := size / widthViewbox
-	c.Parse(foo, string(data), scalingRatio)
 	year, month, _ := time.Now().Date()
+	c.Parse(foo, string(data), scalingRatio)
 	c.Render(year, int(month)+1, size)
 
 	fmt.Printf("done in: %vs\n", time.Since(start).Seconds())

@@ -48,9 +48,16 @@ func parseGroup(g Group, formerCtx Context) {
 		ctx.ReceiverWg.Add(1)
 		parseText(text, ctx)
 	}
+	for _, rect := range g.Rects {
+		parseDataName(rect.DataName)
+	}
 	for _, group := range g.Gs {
 		parseGroup(group, ctx) // todo maybe not necessary
 	}
+}
+
+func parseDataName(object HasAnnotations) {
+
 }
 
 func parseText(text Text, ctx Context) {
@@ -63,7 +70,6 @@ func parseText(text Text, ctx Context) {
 		FontColor:  text.Fill,
 	}
 
-	// todo: text-size
 	calendarText.Position.Width, calendarText.Position.Height = calculateDimensions(
 		calendarText.Content, calendarText.FontFamily, calendarText.FontSize)
 	text.Tranform.Apply(&calendarText)

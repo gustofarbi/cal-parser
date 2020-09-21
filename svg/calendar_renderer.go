@@ -151,6 +151,7 @@ func (c *Calendar) fillTable(year, month int) {
 		drawSingleText(&w, year, month)
 	}
 
+	counter := 0
 	currentDate := time.Date(year, time.Month(month), 1, 12, 0, 0, 0, time.Local)
 	startWeekday := currentDate.Weekday()
 	if startWeekday != time.Monday && c.RenderPrevNext {
@@ -162,6 +163,7 @@ func (c *Calendar) fillTable(year, month int) {
 			text.Content = strconv.Itoa(currentDate.Day())
 			wg.Add(1)
 			drawSingleText(&text, year, month)
+			counter++
 			currentDate = currentDate.AddDate(0, 0, -1)
 		}
 	}
@@ -175,6 +177,7 @@ loop:
 				text.Content = strconv.Itoa(currentDate.Day())
 				wg.Add(1)
 				drawSingleText(&text, year, month)
+				counter++
 				currentDate = currentDate.AddDate(0, 0, 1)
 				startWeekday = 0
 			} else {
@@ -187,15 +190,14 @@ loop:
 		var text CalendarText
 		var ok bool
 		for currentDate.Weekday() != time.Monday {
-			// todo
-			pos := int(currentDate.Weekday()) + currentDate.Day()
-			text, ok = c.positionTableAnotherMonth[pos]
+			text, ok = c.positionTableAnotherMonth[counter]
 			if !ok {
-				text, ok = c.positionTableCurrentMonth[pos]
+				text, ok = c.positionTableCurrentMonth[counter]
 			}
 			text.Content = strconv.Itoa(currentDate.Day())
 			wg.Add(1)
 			drawSingleText(&text, year, month)
+			counter++
 			currentDate = currentDate.AddDate(0, 0, 1)
 		}
 	}
@@ -254,7 +256,7 @@ func renderSvg(svg string, width float64) *gg.Context {
 		fmt.Println(err)
 	}
 
-	cmd := exec.Command("/usr/local/bin/rsvg-convert", "-w", strconv.Itoa(int(width)), svgFile.Name(), "-o", pngFile.Name())
+	cmd := exec.Command("rsvg-convert", "-w", strconv.Itoa(int(width)), svgFile.Name(), "-o", pngFile.Name())
 	err = cmd.Run()
 	if err != nil {
 		fmt.Println(err)
