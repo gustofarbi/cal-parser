@@ -153,6 +153,20 @@ func (c *Calendar) fillTable(year, month int) {
 
 	currentDate := time.Date(year, time.Month(month), 1, 12, 0, 0, 0, time.Local)
 	startWeekday := currentDate.Weekday()
+	if startWeekday != time.Monday && c.RenderPrevNext {
+		for i := int(startWeekday); i > 0; i-- {
+			text, ok := c.positionTableAnotherMonth[i%7]
+			if !ok {
+				continue
+			}
+			text.Content = strconv.Itoa(currentDate.Day())
+			wg.Add(1)
+			drawSingleText(&text, year, month)
+			currentDate = currentDate.AddDate(0, 0, -1)
+		}
+	}
+
+	currentDate = time.Date(year, time.Month(month), 1, 12, 0, 0, 0, time.Local)
 loop:
 	for i := 0; i < 7; i++ {
 		for d := int(startWeekday); d < 7; d++ {
@@ -166,6 +180,23 @@ loop:
 			} else {
 				break loop
 			}
+		}
+	}
+
+	if c.RenderPrevNext && currentDate.Weekday() != time.Monday {
+		var text CalendarText
+		var ok bool
+		for currentDate.Weekday() != time.Monday {
+			// todo
+			pos := int(currentDate.Weekday()) + currentDate.Day()
+			text, ok = c.positionTableAnotherMonth[pos]
+			if !ok {
+				text, ok = c.positionTableCurrentMonth[pos]
+			}
+			text.Content = strconv.Itoa(currentDate.Day())
+			wg.Add(1)
+			drawSingleText(&text, year, month)
+			currentDate = currentDate.AddDate(0, 0, 1)
 		}
 	}
 }

@@ -5,7 +5,7 @@ type DayCurrentMonth struct {
 }
 
 func (d DayCurrentMonth) Apply(text *CalendarText) {
-	text.IsCurrentMonth = true
+	text.IsAnotherMonth = false
 }
 
 func (d DayCurrentMonth) Matches(subject string) bool {

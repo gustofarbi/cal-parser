@@ -32,7 +32,7 @@ func parseGroup(g Group, formerCtx Context) {
 	ctx := formerCtx.Merge(g.DataName)
 
 	if ctx.RenderPrevNext() {
-		ctx.Receiver <- RenderPrevNextMonth{Attribute{true}}
+		ctx.Receiver <- AnnotationObject{RenderPrevNextMonth{Attribute{true}}, ""}
 	}
 
 	ctx.HandleSpecialAnnotation([]Annotation{

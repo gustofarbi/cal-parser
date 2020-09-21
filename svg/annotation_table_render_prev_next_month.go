@@ -12,7 +12,7 @@ type RenderPrevNextMonth struct {
 func (r RenderPrevNextMonth) Apply(text *CalendarText) {}
 
 func (r RenderPrevNextMonth) Matches(subject string) bool {
-	return strings.Contains(subject, "npm=")
+	return strings.Contains(subject, "mpn=")
 }
 
 func (r RenderPrevNextMonth) New(subject string) Annotation {

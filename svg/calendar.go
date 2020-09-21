@@ -109,7 +109,7 @@ func (c *Calendar) SaveText(x CalendarText) {
 		}
 	case x.WeekdayPosition > 0:
 		if x.CalendarType == "table" {
-			if x.IsCurrentMonth { // todo: switch these
+			if x.IsAnotherMonth {
 				c.positionTableAnotherMonth[x.WeekdayPosition] = x
 			} else {
 				c.positionTableCurrentMonth[x.WeekdayPosition] = x
@@ -155,7 +155,7 @@ type CalendarText struct {
 	IsWeekend             bool
 	IsWeekday             bool
 	Language              string
-	IsCurrentMonth        bool
+	IsAnotherMonth        bool
 	FormatWeekdayPosition string
 	FormatMonth           string
 	FormatYear            string
