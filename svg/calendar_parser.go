@@ -75,26 +75,12 @@ func parseText(text Text, ctx Context) {
 
 func calculateDimensions(text, fontString string, fontSize float64) (float64, float64) {
 	ctx := gg.NewContext(0, 0)
-	fontPath, err := getFontFilePath(fontString)
+	face, err := GetFont(fontString, fontSize)
 	if err != nil {
 		panic(fmt.Sprintf("font-string could not be parsed: %s", fontString))
 	}
-	ctx.LoadFontFace(fontPath, fontSize)
+	ctx.SetFontFace(*face)
 	return ctx.MeasureString(text)
-}
-
-func getFontFilePath(fonts string) (string, error) {
-	fontFamilies := strings.Split(fonts, ",")
-
-	for _, family := range fontFamilies {
-		family := strings.Trim(family, " ")
-		fontPath, err := GetFont(family)
-		if err == nil {
-			return fontPath, nil
-		}
-	}
-
-	return "", fmt.Errorf("not match found for %s", fonts)
 }
 
 func (c *Calendar) RemoveTexts() {

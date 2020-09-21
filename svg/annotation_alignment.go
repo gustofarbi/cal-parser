@@ -1,16 +1,21 @@
 package svg
 
+import "github.com/fogleman/gg"
 
 type Alignment struct {
 	Attribute
 }
 
 func (a Alignment) Apply(text *CalendarText) {
+	ctx := gg.NewContext(0, 0)
+	face, _ := GetFont(text.FontFamily, text.FontSize)
+	ctx.SetFontFace(*face)
+	w, _ := ctx.MeasureString(text.Content)
 	switch a.Attr().(string) {
 	case "c":
-		//text.Position.X += (text.Position.Width - dims.TextWidth) / 2
+		text.Position.X += (text.Position.Width - w) / 2
 	case "r":
-		//text.Position.X += text.Position.Width - dims.TextWidth
+		text.Position.X += text.Position.Width - w
 	}
 }
 

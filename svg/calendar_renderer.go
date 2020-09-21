@@ -3,6 +3,7 @@ package svg
 import (
 	"fmt"
 	"github.com/fogleman/gg"
+	"golang.org/x/image/colornames"
 	"image"
 	"image/color"
 	"io/ioutil"
@@ -10,6 +11,7 @@ import (
 	"os"
 	"os/exec"
 	"strconv"
+	"strings"
 	"sync"
 	"time"
 )
@@ -21,7 +23,7 @@ var weekdays = map[int]string{
 	4: "Donnerstag",
 	5: "Freitag",
 	6: "Samstag",
-	7: "Sonntag",
+	0: "Sonntag",
 }
 
 var (
@@ -80,11 +82,11 @@ func drawSingleText(c *CalendarText, year, month int) {
 	c.CurrentYear = year
 	c.Annotations.ApplyLate(c)
 	ctx := gg.NewContext(0, 0)
-	fontPath, err := getFontFilePath(c.FontFamily)
-	err = ctx.LoadFontFace(fontPath, c.FontSize)
+	face, err := GetFont(c.FontFamily, c.FontSize)
 	if err != nil {
 		panic(err)
 	}
+	ctx.SetFontFace(*face)
 	w, h := ctx.MeasureString(c.Content)
 	var r float64
 	if w > h {
@@ -94,17 +96,21 @@ func drawSingleText(c *CalendarText, year, month int) {
 	}
 	r = math.Sqrt(w*w + h*h)
 	ctx = gg.NewContext(int(r*2), int(r*2))
-	// todo fonts
-	err = ctx.LoadFontFace(fontPath, c.FontSize)
-	if err != nil {
-		panic(err)
-	}
+	ctx.SetFontFace(*face)
 	ctx.RotateAbout(gg.Radians(c.Position.Rotation), r, r)
 	var fontColor color.Color
+	var ok bool
 	if c.FontColor != "" {
-		fontColor, err = ParseHexColor(c.FontColor)
-		if err != nil {
-			panic(err)
+		if strings.HasPrefix(c.FontColor, "#") {
+			fontColor, err = ParseHexColor(c.FontColor)
+			if err != nil {
+				panic(err)
+			}
+		} else {
+			fontColor, ok = colornames.Map[c.FontColor]
+			if !ok {
+				panic("color not found: " + c.FontColor)
+			}
 		}
 	} else {
 		fontColor = color.Black
@@ -140,7 +146,7 @@ func ParseHexColor(s string) (c color.RGBA, err error) {
 
 func (c *Calendar) fillTable(year, month int) {
 	for _, w := range c.weekdayHeadingsTable {
-		w.Content = weekdays[w.WeekdayHeader]
+		w.Content = weekdays[w.WeekdayHeader%7]
 		wg.Add(1)
 		drawSingleText(&w, year, month)
 	}
@@ -172,7 +178,7 @@ func (c *Calendar) fillLine(year, month int) {
 		if !ok {
 			panic("header not set: " + strconv.Itoa(counter))
 		}
-		header.Content = weekdays[int(first.Weekday())%7+1]
+		header.Content = weekdays[int(first.Weekday())%7]
 		first = first.Add(24 * time.Hour)
 		counter++
 		wg.Add(1) // todo do this in the method itself
