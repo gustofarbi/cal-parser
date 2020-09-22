@@ -18,6 +18,14 @@ type Node struct {
 	Nodes    []Node `xml:",any"`
 }
 
+func walk(nodes []Node, f func(Node) bool) {
+	for _, n := range nodes {
+		if f(n) {
+			walk(n.Nodes, f)
+		}
+	}
+}
+
 func main() {
 	start := time.Now()
 	var foo svg.Svg
