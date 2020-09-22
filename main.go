@@ -10,6 +10,14 @@ import (
 	"time"
 )
 
+type Node struct {
+	XMLName  xml.Name
+	DataName string `xml:"data-name,attr"`
+	Id       string `xml:"id,attr"`
+	Content  string `xml:",innerxml"`
+	Nodes    []Node `xml:",any"`
+}
+
 func main() {
 	start := time.Now()
 	var foo svg.Svg
@@ -23,6 +31,11 @@ func main() {
 		fmt.Errorf("shit happened: %s", err)
 	}
 
+	var bar Node
+	err = xml.Unmarshal(data, &bar)
+	if err != nil {
+		fmt.Errorf("shit happened: %s", err)
+	}
 	c := svg.NewCalendar()
 	dims := strings.Split(foo.ViewBox, " ")
 	size := 2000.0
