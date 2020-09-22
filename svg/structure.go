@@ -15,8 +15,7 @@ type Svg struct {
 }
 
 type Group struct {
-	DataName          DataName  `xml:"data-name,attr"`
-	Raw               string    `xml:",innerxml"`
+	AnnotationHolder
 	Content           string    `xml:",innerxml"`
 	Id                string    `xml:"id,attr,omitempty"`
 	ClipPathReference string    `xml:"clip-path,attr"`
@@ -31,16 +30,14 @@ type Group struct {
 
 type Image struct {
 	Position
-	Raw       string     `xml:",innerxml"`
-	DataName  DataName   `xml:"data-name,attr"`
+	AnnotationHolder
 	Transform Transforms `xml:"transform,attr"`
 	Href      string     `xml:"http://www.w3.org/1999/xlink href,attr"`
 }
 
 type Text struct {
 	Position
-	Raw        string     `xml:",innerxml"`
-	DataName   DataName   `xml:"data-name,attr"`
+	AnnotationHolder
 	Id         string     `xml:"id,attr"`
 	FontSize   float64    `xml:"font-size,attr"`
 	Fill       string     `xml:"fill,attr"`
@@ -52,10 +49,9 @@ type Text struct {
 
 type Rect struct {
 	Position
-	Raw      string   `xml:",innerxml"`
-	DataName DataName `xml:"data-name,attr"`
-	Id       string   `xml:"id,attr,omitempty"`
-	Fill     string   `xml:"fill,attr"`
+	AnnotationHolder
+	Id   string `xml:"id,attr,omitempty"`
+	Fill string `xml:"fill,attr"`
 }
 
 type Def struct {
@@ -63,10 +59,9 @@ type Def struct {
 }
 
 type Polygon struct {
-	Raw         string   `xml:",innerxml"`
-	DataName    DataName `xml:"data-name,attr"`
-	PointsSlice Points   `xml:"points,attr"`
-	Fill        string   `xml:"fill,attr"`
+	AnnotationHolder
+	PointsSlice Points `xml:"points,attr"`
+	Fill        string `xml:"fill,attr"`
 }
 
 type Points struct {
@@ -77,21 +72,24 @@ type DataName struct {
 	Values []string
 }
 
-type Circle struct {
-	Raw      string   `xml:",innerxml"`
+type AnnotationHolder struct {
 	DataName DataName `xml:"data-name,attr"`
-	Cx       float64  `xml:"cx,attr"`
-	Cy       float64  `xml:"cy,attr"`
-	R        float64  `xml:"r,attr"`
-	Fill     string   `xml:"fill,attr"`
+	Raw      string   `xml:",innerxml"`
+}
+
+type Circle struct {
+	AnnotationHolder
+	Cx   float64 `xml:"cx,attr"`
+	Cy   float64 `xml:"cy,attr"`
+	R    float64 `xml:"r,attr"`
+	Fill string  `xml:"fill,attr"`
 }
 
 type Path struct {
-	Raw      string   `xml:",innerxml"`
-	DataName DataName `xml:"data-name,attr"`
-	D        string   `xml:"d,attr"`
-	Fill     string   `xml:"fill,attr"`
-	Opacity  float64  `xml:"opacity,attr,omitempty"`
+	AnnotationHolder
+	D       string  `xml:"d,attr"`
+	Fill    string  `xml:"fill,attr"`
+	Opacity float64 `xml:"opacity,attr,omitempty"`
 }
 
 type ClipPath struct {
@@ -165,6 +163,15 @@ func (a *DataName) UnmarshalXMLAttr(attr xml.Attr) error {
 
 type HasAnnotations interface {
 	All() []string
+	RawContent() string
+}
+
+func (a AnnotationHolder) All() []string {
+	return a.DataName.All()
+}
+
+func (a AnnotationHolder) RawContent() string {
+	return a.Raw
 }
 
 func (a DataName) All() []string {

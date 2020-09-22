@@ -105,17 +105,27 @@ func (c Context) RenderPrevNext() bool {
 func (c Context) HandleSpecialAnnotation(annotations []Annotation, rawSvg string) {
 	for _, annotation := range annotations {
 		single := c.Get(annotation.Priority(), annotation.Id())
-		switch x := single.(type) {
-		case LineWeekendElement:
-		case LineWeekdayElement: // todo check
-			weekdayPosition := WeekdayPosition{}
-			pos := c.Get(weekdayPosition.Priority(), weekdayPosition.Id())
-			if pos != nil {
-				x.Attribute.Val = pos.Attr().(int)
+		if single != nil {
+			var result Annotation
+			switch single := single.(type) {
+			case LineWeekendElement:
+				weekdayPosition := WeekdayPosition{}
+				pos := c.Get(weekdayPosition.Priority(), weekdayPosition.Id())
+				if pos != nil {
+					single.Attribute.Val = pos.Attr().(int)
+				}
+				result = single
+			case LineWeekdayElement:
+				weekdayPosition := WeekdayPosition{}
+				pos := c.Get(weekdayPosition.Priority(), weekdayPosition.Id())
+				if pos != nil {
+					single.Set(pos.Attr().(int))
+				}
+				result = single
 			}
+			annotationObject := AnnotationObject{result, rawSvg}
+			c.Receiver <- annotationObject
 		}
-		annotationObject := AnnotationObject{single, rawSvg}
-		c.Receiver <- annotationObject
 	}
 }
 

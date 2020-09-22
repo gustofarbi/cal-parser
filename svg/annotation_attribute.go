@@ -7,3 +7,7 @@ type Attribute struct {
 func (a Attribute) Attr() interface{} {
 	return a.Val
 }
+
+func (a *Attribute) Set(o interface{}) {
+	a.Val = o
+}

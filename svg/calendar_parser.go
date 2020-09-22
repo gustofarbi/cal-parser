@@ -29,7 +29,7 @@ func (c *Calendar) Parse(svg Svg, svgRaw string, scalingRatio float64) {
 }
 
 func parseGroup(g Group, formerCtx Context) {
-	ctx := formerCtx.Merge(g.DataName)
+	ctx := formerCtx.Merge(g)
 
 	if ctx.RenderPrevNext() {
 		ctx.Receiver <- AnnotationObject{RenderPrevNextMonth{Attribute{true}}, ""}
@@ -49,19 +49,35 @@ func parseGroup(g Group, formerCtx Context) {
 		parseText(text, ctx)
 	}
 	for _, rect := range g.Rects {
-		parseDataName(rect.DataName)
+		parseDataName(rect, ctx)
+	}
+	for _, circle := range g.Circles {
+		parseDataName(circle, ctx)
 	}
 	for _, group := range g.Gs {
 		parseGroup(group, ctx) // todo maybe not necessary
 	}
 }
 
-func parseDataName(object HasAnnotations) {
+func parseDataName(object HasAnnotations, formerCtx Context) {
+	ctx := formerCtx.Merge(object)
 
+	if ctx.RenderPrevNext() {
+		ctx.Receiver <- AnnotationObject{RenderPrevNextMonth{Attribute{true}}, ""}
+	}
+
+	ctx.HandleSpecialAnnotation([]Annotation{
+		//RenderMonthOnly{},
+		//todo: other way
+		SkipWeek{},
+		LineSkipDay{},
+		LineWeekdayElement{},
+		LineWeekendElement{},
+	}, object.RawContent())
 }
 
 func parseText(text Text, ctx Context) {
-	ctx = ctx.Merge(text.DataName)
+	ctx = ctx.Merge(text)
 	calendarText := CalendarText{
 		Position:   text.Position,
 		Content:    text.Content,
