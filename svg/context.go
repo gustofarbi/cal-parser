@@ -102,7 +102,7 @@ func (c Context) RenderPrevNext() bool {
 	return false
 }
 
-func (c Context) HandleSpecialAnnotation(annotations []Annotation, rawSvg string) {
+func (c Context) HandleSpecialAnnotation(annotations []Annotation, id string) {
 	for _, annotation := range annotations {
 		single := c.Get(annotation.Priority(), annotation.Id())
 		if single != nil {
@@ -122,8 +122,10 @@ func (c Context) HandleSpecialAnnotation(annotations []Annotation, rawSvg string
 					single.Set(pos.Attr().(int))
 				}
 				result = single
+			default:
+				result = single
 			}
-			annotationObject := AnnotationObject{result, rawSvg}
+			annotationObject := AnnotationObject{result, id}
 			c.Receiver <- annotationObject
 		}
 	}

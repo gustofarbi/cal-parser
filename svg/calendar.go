@@ -32,9 +32,11 @@ type Calendar struct {
 	ReceiverWg     *sync.WaitGroup
 	RenderPrevNext bool
 	svgContent     string
+	NodeMapping    map[string]Node
 }
 
-func NewCalendar() Calendar {
+func NewCalendar(svg []byte, month int) Calendar {
+	_, mapping := filterByMonth(svg, month)
 	return Calendar{
 		texts:                     make([]CalendarText, 0),
 		weekdayHeadingsTable:      make(map[int]CalendarText),
@@ -60,6 +62,7 @@ func NewCalendar() Calendar {
 
 		RenderPrevNext: false,
 		svgContent:     "",
+		NodeMapping:    mapping,
 	}
 }
 

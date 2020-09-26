@@ -17,7 +17,6 @@ type Svg struct {
 type Group struct {
 	AnnotationHolder
 	Content           string    `xml:",innerxml"`
-	Id                string    `xml:"id,attr,omitempty"`
 	ClipPathReference string    `xml:"clip-path,attr"`
 	Rects             []Rect    `xml:"rect"`
 	Circles           []Circle  `xml:"circle"`
@@ -38,7 +37,6 @@ type Image struct {
 type Text struct {
 	Position
 	AnnotationHolder
-	Id         string     `xml:"id,attr"`
 	FontSize   float64    `xml:"font-size,attr"`
 	Fill       string     `xml:"fill,attr"`
 	FontFamily string     `xml:"font-family,attr"`
@@ -50,7 +48,6 @@ type Text struct {
 type Rect struct {
 	Position
 	AnnotationHolder
-	Id   string `xml:"id,attr,omitempty"`
 	Fill string `xml:"fill,attr"`
 }
 
@@ -74,7 +71,7 @@ type DataName struct {
 
 type AnnotationHolder struct {
 	DataName DataName `xml:"data-name,attr"`
-	Raw      string   `xml:",innerxml"`
+	Id       string   `xml:"id,attr"`
 }
 
 type Circle struct {
@@ -93,7 +90,7 @@ type Path struct {
 }
 
 type ClipPath struct {
-	Id      string   `xml:"id"`
+	Id      string   `xml:"id,attr"`
 	Rects   []Rect   `xml:"rect"`
 	Circles []Circle `xml:"circle"`
 	Paths   []Path   `xml:"path"`
@@ -163,15 +160,15 @@ func (a *DataName) UnmarshalXMLAttr(attr xml.Attr) error {
 
 type HasAnnotations interface {
 	All() []string
-	RawContent() string
+	Identifier() string
 }
 
 func (a AnnotationHolder) All() []string {
 	return a.DataName.All()
 }
 
-func (a AnnotationHolder) RawContent() string {
-	return a.Raw
+func (a AnnotationHolder) Identifier() string {
+	return a.Id
 }
 
 func (a DataName) All() []string {

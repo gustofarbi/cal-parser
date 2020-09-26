@@ -36,13 +36,11 @@ func parseGroup(g Group, formerCtx Context) {
 	}
 
 	ctx.HandleSpecialAnnotation([]Annotation{
-		//RenderMonthOnly{},
-		//todo: other way
 		SkipWeek{},
 		LineSkipDay{},
 		LineWeekdayElement{},
 		LineWeekendElement{},
-	}, g.Raw)
+	}, g.Identifier())
 
 	for _, text := range g.Texts {
 		ctx.ReceiverWg.Add(1)
@@ -55,7 +53,7 @@ func parseGroup(g Group, formerCtx Context) {
 		parseDataName(circle, ctx)
 	}
 	for _, group := range g.Gs {
-		parseGroup(group, ctx) // todo maybe not necessary
+		parseGroup(group, ctx)
 	}
 }
 
@@ -67,13 +65,11 @@ func parseDataName(object HasAnnotations, formerCtx Context) {
 	}
 
 	ctx.HandleSpecialAnnotation([]Annotation{
-		//RenderMonthOnly{},
-		//todo: other way
 		SkipWeek{},
 		LineSkipDay{},
 		LineWeekdayElement{},
 		LineWeekendElement{},
-	}, object.RawContent())
+	}, object.Identifier())
 }
 
 func parseText(text Text, ctx Context) {

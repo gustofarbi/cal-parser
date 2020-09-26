@@ -10,22 +10,6 @@ import (
 	"time"
 )
 
-type Node struct {
-	XMLName  xml.Name
-	DataName string `xml:"data-name,attr"`
-	Id       string `xml:"id,attr"`
-	Content  string `xml:",innerxml"`
-	Nodes    []Node `xml:",any"`
-}
-
-func walk(nodes []Node, f func(Node) bool) {
-	for _, n := range nodes {
-		if f(n) {
-			walk(n.Nodes, f)
-		}
-	}
-}
-
 func main() {
 	start := time.Now()
 	var foo svg.Svg
@@ -39,19 +23,16 @@ func main() {
 		fmt.Errorf("shit happened: %s", err)
 	}
 
-	var bar Node
-	err = xml.Unmarshal(data, &bar)
-	if err != nil {
-		fmt.Errorf("shit happened: %s", err)
-	}
-	c := svg.NewCalendar()
+	year, m, _ := time.Now().Date()
+	month := int(m) + 1
+	c := svg.NewCalendar(data, month)
 	dims := strings.Split(foo.ViewBox, " ")
 	size := 2000.0
 	widthViewbox, _ := strconv.ParseFloat(dims[2], 64)
 	scalingRatio := size / widthViewbox
-	year, month, _ := time.Now().Date()
+
 	c.Parse(foo, string(data), scalingRatio)
-	c.Render(year, int(month)+1, size)
+	c.Render(year, month, size)
 
 	fmt.Printf("done in: %vs\n", time.Since(start).Seconds())
 	return

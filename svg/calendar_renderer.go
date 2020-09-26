@@ -201,6 +201,20 @@ loop:
 			currentDate = currentDate.AddDate(0, 0, 1)
 		}
 	}
+
+	//reg := regexp.MustCompile("<rect id=\"rect\".*[]")
+	//blanks := 42 - counter + 1
+	//for _, elements := range c.skipWeeks {
+	//	for _, element := range elements {
+	//		delete(c.NodeMapping, element)
+	//	}
+	//}
+	//
+	//for _, elements := range c.skipWeeks {
+	//	for _, elementId := range elements {
+	//		elementId
+	//	}
+	//}
 }
 
 func (c *Calendar) fillLine(year, month int) {
