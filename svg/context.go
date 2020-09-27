@@ -133,5 +133,5 @@ func (c Context) HandleSpecialAnnotation(annotations []Annotation, id string) {
 
 type AnnotationObject struct {
 	Annotation
-	RawSvg string
+	Id string
 }

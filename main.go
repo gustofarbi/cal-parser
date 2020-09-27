@@ -23,6 +23,11 @@ func main() {
 		fmt.Errorf("shit happened: %s", err)
 	}
 
+	mapping := svg.NewMapping(data)
+
+	val, ok := mapping.Mapping.Load(""); if ok {
+		println(val)
+	}
 	year, m, _ := time.Now().Date()
 	month := int(m) + 1
 	c := svg.NewCalendar(data, month)

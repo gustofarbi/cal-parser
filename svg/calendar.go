@@ -32,11 +32,9 @@ type Calendar struct {
 	ReceiverWg     *sync.WaitGroup
 	RenderPrevNext bool
 	svgContent     string
-	NodeMapping    map[string]Node
 }
 
 func NewCalendar(svg []byte, month int) Calendar {
-	_, mapping := filterByMonth(svg, month)
 	return Calendar{
 		texts:                     make([]CalendarText, 0),
 		weekdayHeadingsTable:      make(map[int]CalendarText),
@@ -61,8 +59,7 @@ func NewCalendar(svg []byte, month int) Calendar {
 		ReceiverWg: &sync.WaitGroup{},
 
 		RenderPrevNext: false,
-		svgContent:     "",
-		NodeMapping:    mapping,
+		svgContent:     string(svg),
 	}
 }
 
@@ -73,6 +70,7 @@ loop:
 	for {
 		select {
 		case <-ticker:
+			// todo use cond instead
 			counter++
 			if counter > 10 {
 				break loop
@@ -89,13 +87,13 @@ loop:
 						c.RenderPrevNext = x.Attr().(bool)
 					}
 				case SkipWeek:
-					c.skipWeeks[o.Attr().(int)] = append(c.skipWeeks[o.Attr().(int)], x.RawSvg)
+					c.skipWeeks[o.Attr().(int)] = append(c.skipWeeks[o.Attr().(int)], x.Id)
 				case LineSkipDay:
-					c.skipDays[o.Attr().(int)] = append(c.skipDays[o.Attr().(int)], x.RawSvg)
+					c.skipDays[o.Attr().(int)] = append(c.skipDays[o.Attr().(int)], x.Id)
 				case LineWeekdayElement:
-					c.weekdayElements[o.Attr().(int)] = append(c.weekdayElements[o.Attr().(int)], x.RawSvg)
+					c.weekdayElements[o.Attr().(int)] = append(c.weekdayElements[o.Attr().(int)], x.Id)
 				case LineWeekendElement:
-					c.weekendElements[o.Attr().(int)] = append(c.weekendElements[o.Attr().(int)], x.RawSvg)
+					c.weekendElements[o.Attr().(int)] = append(c.weekendElements[o.Attr().(int)], x.Id)
 				}
 			}
 		}
