@@ -3,30 +3,35 @@ package svg
 import (
 	"bytes"
 	"golang.org/x/net/html"
+	"regexp"
+	"strconv"
 	"sync"
 )
 
 type NodeMapping struct {
 	root    *Node
 	Mapping *sync.Map
+	months  []*Node
 }
 
 type Node struct {
-	Id       string
-	Children []*Node
-	start    string
-	end      string
+	Id           string
+	Children     []*Node
+	start        string
+	end          string
+	renderMonths []int
 }
 
 func NewMapping(data []byte) NodeMapping {
 	root := &Node{}
 	t := html.NewTokenizer(bytes.NewReader(data))
 	m := &sync.Map{}
-	walk(t, root, m)
-	return NodeMapping{root, m}
+	nm := NodeMapping{root, m, make([]*Node, 0)}
+	nm.walk(t, root)
+	return nm
 }
 
-func walk(t *html.Tokenizer, parent *Node, m *sync.Map) (end string) {
+func (nm *NodeMapping) walk(t *html.Tokenizer, parent *Node) (end string) {
 loop:
 	for {
 		ttype := t.Next()
@@ -35,11 +40,11 @@ loop:
 		case html.ErrorToken:
 			break loop
 		case html.SelfClosingTagToken:
-			addToMapping(tok, parent, m)
+			nm.addToMapping(tok, parent)
 		case html.StartTagToken:
-			n := addToMapping(tok, parent, m)
+			n := nm.addToMapping(tok, parent)
 			if n != nil {
-				n.end = walk(t, n, m)
+				n.end = nm.walk(t, n)
 			}
 			continue
 		case html.EndTagToken:
@@ -51,7 +56,8 @@ loop:
 	return ""
 }
 
-func addToMapping(t html.Token, parent *Node, m *sync.Map) *Node {
+var monthRegex = regexp.MustCompile("-m(\\d+)")
+func (nm *NodeMapping) addToMapping(t html.Token, parent *Node) *Node {
 	id := ""
 	for _, attr := range t.Attr {
 		if attr.Key == "id" {
@@ -62,13 +68,23 @@ func addToMapping(t html.Token, parent *Node, m *sync.Map) *Node {
 	if id == "" {
 		return nil
 	}
+	months := monthRegex.FindStringSubmatch(id)
+	monthNumbers := make([]int, 0)
+	for _, month := range months {
+		n, _:= strconv.Atoi(month)
+		monthNumbers = append(monthNumbers, n)
+	}
 	n := &Node{
 		id,
 		make([]*Node, 0),
 		t.String(),
 		"",
+		monthNumbers,
 	}
-	m.Store(id, n)
+	nm.Mapping.Store(id, n)
+	if len(monthNumbers) > 0 {
+
+	}
 	parent.Children = append(parent.Children, n)
 	return n
 }

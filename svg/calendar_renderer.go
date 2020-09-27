@@ -145,12 +145,14 @@ func ParseHexColor(s string) (c color.RGBA, err error) {
 }
 
 func (c *Calendar) fillTable(year, month int) {
+	// render headers first
 	for _, w := range c.weekdayHeadingsTable {
 		w.Content = weekdays[w.WeekdayHeader%7]
 		wg.Add(1)
 		drawSingleText(&w, year, month)
 	}
 
+	// render days in previous month if necessary
 	counter := 0
 	currentDate := time.Date(year, time.Month(month), 1, 12, 0, 0, 0, time.Local)
 	startWeekday := currentDate.Weekday()
@@ -168,6 +170,7 @@ func (c *Calendar) fillTable(year, month int) {
 		}
 	}
 
+	// render current month
 	currentDate = time.Date(year, time.Month(month), 1, 12, 0, 0, 0, time.Local)
 loop:
 	for i := 0; i < 7; i++ {
@@ -186,6 +189,7 @@ loop:
 		}
 	}
 
+	// render days in the month after if necessary
 	if c.RenderPrevNext && currentDate.Weekday() != time.Monday {
 		var text CalendarText
 		var ok bool
