@@ -22,22 +22,19 @@ func main() {
 	if err != nil {
 		fmt.Errorf("shit happened: %s", err)
 	}
+	// todo: unite svg and node-mapping
 
-	mapping := svg.NewMapping(data)
-
-	val, ok := mapping.Mapping.Load(""); if ok {
-		println(val)
-	}
 	year, m, _ := time.Now().Date()
-	month := int(m) + 1
-	c := svg.NewCalendar(data, month)
+	month := int(m) - 7
+	c := svg.NewCalendar(data)
 	dims := strings.Split(foo.ViewBox, " ")
 	size := 2000.0
 	widthViewbox, _ := strconv.ParseFloat(dims[2], 64)
+	heightViewbox, _ := strconv.ParseFloat(dims[3], 64)
 	scalingRatio := size / widthViewbox
 
 	c.Parse(foo, string(data), scalingRatio)
-	c.Render(year, month, size)
+	c.Render(year, month, size, size * (heightViewbox / widthViewbox))
 
 	fmt.Printf("done in: %vs\n", time.Since(start).Seconds())
 	return

@@ -31,11 +31,13 @@ var (
 	wg = &sync.WaitGroup{}
 )
 
-func (c *Calendar) Render(year, month int, width float64) {
-	ctx := renderSvg(c.svgContent, width)
-	go startReceiver(ctx)
+func (c *Calendar) Render(year, month int, width, height float64) {
+	canvas := gg.NewContext(int(width), int(height))
+	go startReceiver(canvas)
 	c.drawTexts(year, month)
-	ctx.SavePNG("saved.png")
+	bg := renderSvg(c.svgContent, width)
+	bg.DrawImage(canvas.Image(), 0, 0)
+	bg.SavePNG("saved.png")
 }
 
 type ImageObject struct {
@@ -206,19 +208,49 @@ loop:
 		}
 	}
 
-	//reg := regexp.MustCompile("<rect id=\"rect\".*[]")
-	//blanks := 42 - counter + 1
-	//for _, elements := range c.skipWeeks {
-	//	for _, element := range elements {
-	//		delete(c.NodeMapping, element)
-	//	}
-	//}
-	//
-	//for _, elements := range c.skipWeeks {
-	//	for _, elementId := range elements {
-	//		elementId
-	//	}
-	//}
+	currentDate = time.Date(year, time.Month(month), 1, 12, 0, 0, 0, time.Local)
+	for _, calendarWeek := range c.calendarWeeksTable {
+		_, w := currentDate.ISOWeek()
+		calendarWeek.Content = strconv.Itoa(w)
+		wg.Add(1)
+		drawSingleText(&calendarWeek, year, month)
+		currentDate = currentDate.Add(7 * 24 * time.Hour)
+		if int(currentDate.Month()) != month {
+			break
+		}
+	}
+
+	c.removeSkipDays(counter, true)
+	c.removeSkipMonths(counter)
+}
+func (c *Calendar) removeSkipMonths(start int) {
+	monthsToRemove := start % 7
+	for i := 0; i < monthsToRemove; i++ {
+
+	}
+}
+func (c *Calendar) removeSkipDays(start int, greaterThan bool) {
+	for _, node := range c.nodeMapping.skipDays {
+		for _, skipDay := range node.daysToSkip {
+			if greaterThan && skipDay >= start {
+				c.removeNode(node)
+			} else if !greaterThan && skipDay <= start {
+				c.removeNode(node)
+			}
+		}
+	}
+}
+
+func (c *Calendar) removeNode(n *Node) {
+	for _, child := range n.Children {
+		c.removeNode(child)
+	}
+
+	if n.end == "" {
+		c.svgContent = strings.Replace(c.svgContent, n.start, "", -1)
+	} else {
+		c.svgContent = strings.Replace(c.svgContent, n.start+n.end, "", -1) // todo: check if not regex
+	}
 }
 
 func (c *Calendar) fillLine(year, month int) {
@@ -243,6 +275,7 @@ func (c *Calendar) fillLine(year, month int) {
 		counter++
 		first = first.Add(24 * time.Hour)
 	}
+	c.removeSkipDays(counter, true)
 }
 
 func (c *Calendar) fillPositionLine(position, year, month int, isWeekend bool) {

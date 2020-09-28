@@ -37,6 +37,7 @@ func init() {
 		SkipWeek{},
 		WeekdayHeader{},
 		WeekdayPosition{},
+		Year{},
 	}
 }
 

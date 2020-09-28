@@ -9,9 +9,10 @@ import (
 )
 
 type NodeMapping struct {
-	root    *Node
-	Mapping *sync.Map
-	months  []*Node
+	root       *Node
+	Mapping    *sync.Map
+	keepMonths []*Node
+	skipDays   []*Node
 }
 
 type Node struct {
@@ -19,14 +20,20 @@ type Node struct {
 	Children     []*Node
 	start        string
 	end          string
-	renderMonths []int
+	monthsToKeep []int
+	daysToSkip   []int
 }
 
 func NewMapping(data []byte) NodeMapping {
 	root := &Node{}
 	t := html.NewTokenizer(bytes.NewReader(data))
 	m := &sync.Map{}
-	nm := NodeMapping{root, m, make([]*Node, 0)}
+	nm := NodeMapping{
+		root,
+		m,
+		make([]*Node, 0),
+		make([]*Node, 0),
+	}
 	nm.walk(t, root)
 	return nm
 }
@@ -56,7 +63,9 @@ loop:
 	return ""
 }
 
-var monthRegex = regexp.MustCompile("-m(\\d+)")
+var keepMonthsRegex = regexp.MustCompile("-m(\\d+)")
+var skipDayRegex = regexp.MustCompile("-n(\\d+)")
+
 func (nm *NodeMapping) addToMapping(t html.Token, parent *Node) *Node {
 	id := ""
 	for _, attr := range t.Attr {
@@ -68,49 +77,43 @@ func (nm *NodeMapping) addToMapping(t html.Token, parent *Node) *Node {
 	if id == "" {
 		return nil
 	}
-	months := monthRegex.FindStringSubmatch(id)
-	monthNumbers := make([]int, 0)
-	for _, month := range months {
-		n, _:= strconv.Atoi(month)
-		monthNumbers = append(monthNumbers, n)
+
+	var keepMonths []int
+	var skipDays []int
+
+	months := keepMonthsRegex.FindStringSubmatch(id)
+	if len(months) > 0 {
+		keepMonths = make([]int, 0)
+		for _, month := range months[1:] {
+			x, _ := strconv.Atoi(month)
+			keepMonths = append(keepMonths, x)
+		}
 	}
+
+	days := skipDayRegex.FindStringSubmatch(id)
+	if len(days) > 0 {
+		skipDays = make([]int, 0)
+		for _, day := range days[1:] {
+			x, _ := strconv.Atoi(day)
+			skipDays = append(skipDays, x)
+		}
+	}
+
 	n := &Node{
 		id,
 		make([]*Node, 0),
 		t.String(),
 		"",
-		monthNumbers,
+		keepMonths,
+		skipDays,
 	}
 	nm.Mapping.Store(id, n)
-	if len(monthNumbers) > 0 {
-
+	if len(keepMonths) > 0 {
+		nm.keepMonths = append(nm.keepMonths, n)
+	}
+	if len(skipDays) > 0 {
+		nm.skipDays = append(nm.skipDays, n)
 	}
 	parent.Children = append(parent.Children, n)
 	return n
 }
-
-//func filterByMonth(data []byte, month int) (Node, map[string]Node) {
-//	var start Node
-//	if err := xml.Unmarshal(data, &start); err != nil {
-//		panic("cannot parse svg: " + err.Error())
-//	}
-//
-//	mapping := make(map[string]Node)
-//	walkAndFilter(start.Nodes, mapping, func(node Node) bool {
-//		reg := regexp.MustCompile("^m(\\d+)") // todo check
-//		ids := strings.Split(node.Id, "-")
-//		for _, id := range ids {
-//			subj := reg.FindString(id)
-//			n, err := strconv.Atoi(subj)
-//			if err != nil {
-//				continue
-//			}
-//			if n == month {
-//				return false
-//			}
-//		}
-//		return true
-//	})
-//
-//	return start, mapping
-//}

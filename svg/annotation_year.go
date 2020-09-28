@@ -15,7 +15,7 @@ func (y Year) Matches(subject string) bool {
 }
 
 func (y Year) New(subject string) Annotation {
-	return Year{}
+	return Year{} // todo
 }
 
 func (y Year) Id() string {
