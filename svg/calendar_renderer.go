@@ -52,6 +52,10 @@ func startReceiver(canvas *gg.Context) {
 	}
 }
 
+func FirstOfTheMonth(year, month int) time.Time {
+	return time.Date(year, time.Month(month), 1, 12, 0, 0, 0, time.Local)
+}
+
 func (c *Calendar) drawTexts(year, month int) {
 	if len(c.positionTableCurrentMonth) == 42 {
 		c.fillTable(year, month)
@@ -67,9 +71,11 @@ func (c *Calendar) drawTexts(year, month int) {
 	}
 
 	for _, text := range c.years {
+		text.Content = strconv.Itoa(FirstOfTheMonth(year, month).Year())
 		wg.Add(1)
 		drawSingleText(&text, year, month)
 	}
+
 
 	for _, text := range c.texts {
 		wg.Add(1)
@@ -156,7 +162,7 @@ func (c *Calendar) fillTable(year, month int) {
 
 	// render days in previous month if necessary
 	counter := 0
-	currentDate := time.Date(year, time.Month(month), 1, 12, 0, 0, 0, time.Local)
+	currentDate := FirstOfTheMonth(year, month)
 	startWeekday := currentDate.Weekday()
 	if startWeekday != time.Monday && c.RenderPrevNext {
 		for i := int(startWeekday); i > 0; i-- {
@@ -173,7 +179,7 @@ func (c *Calendar) fillTable(year, month int) {
 	}
 
 	// render current month
-	currentDate = time.Date(year, time.Month(month), 1, 12, 0, 0, 0, time.Local)
+	currentDate = FirstOfTheMonth(year, month)
 loop:
 	for i := 0; i < 7; i++ {
 		for d := int(startWeekday); d < 7; d++ {
@@ -208,7 +214,7 @@ loop:
 		}
 	}
 
-	currentDate = time.Date(year, time.Month(month), 1, 12, 0, 0, 0, time.Local)
+	currentDate = FirstOfTheMonth(year, month)
 	for _, calendarWeek := range c.calendarWeeksTable {
 		_, w := currentDate.ISOWeek()
 		calendarWeek.Content = strconv.Itoa(w)
@@ -223,12 +229,14 @@ loop:
 	c.removeSkipDays(counter, true)
 	c.removeSkipMonths(counter)
 }
+
 func (c *Calendar) removeSkipMonths(start int) {
 	monthsToRemove := start % 7
 	for i := 0; i < monthsToRemove; i++ {
 
 	}
 }
+
 func (c *Calendar) removeSkipDays(start int, greaterThan bool) {
 	for _, node := range c.nodeMapping.skipDays {
 		for _, skipDay := range node.daysToSkip {

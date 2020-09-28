@@ -8,6 +8,11 @@ import (
 	"sync"
 )
 
+var (
+	keepMonthsRegex = regexp.MustCompile("-m(\\d+)")
+	skipDayRegex    = regexp.MustCompile("-n(\\d+)")
+)
+
 type NodeMapping struct {
 	root       *Node
 	Mapping    *sync.Map
@@ -62,9 +67,6 @@ loop:
 
 	return ""
 }
-
-var keepMonthsRegex = regexp.MustCompile("-m(\\d+)")
-var skipDayRegex = regexp.MustCompile("-n(\\d+)")
 
 func (nm *NodeMapping) addToMapping(t html.Token, parent *Node) *Node {
 	id := ""
