@@ -13,8 +13,9 @@ import (
 func main() {
 	start := time.Now()
 	var foo svg.Svg
-	data, err := ioutil.ReadFile("examples/wandkalender_a4-quer_month-1.svg")
-	//data, err := ioutil.ReadFile("wandkalender_a4-hoch_month.svg")
+	//data, err := ioutil.ReadFile("examples/wandkalender_a4-quer_month-1.svg")
+	//data, err := ioutil.ReadFile("examples/wandkalender_a4-hoch_month.svg")
+	data, err := ioutil.ReadFile("examples/wandkalender_a3-hoch_month.svg")
 	if err != nil {
 		fmt.Errorf("shit happened: %s", err)
 	}

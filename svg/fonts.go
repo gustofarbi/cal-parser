@@ -34,7 +34,9 @@ func GetFont(fonts string, size float64) (face *font.Face, e error) {
 		var ok bool
 		family = strings.Trim(family, " ")
 		face, ok = getFamily(family, size)
-		if !ok {
+		if ok {
+			return face, nil
+		} else {
 			for _, fontFile := range availableFonts {
 				if strings.Contains(fontFile, family) {
 					bytes, err := ioutil.ReadFile(fontFile)
@@ -47,12 +49,13 @@ func GetFont(fonts string, size float64) (face *font.Face, e error) {
 					}
 					faceTmp := truetype.NewFace(f, &truetype.Options{Size: size})
 					cacheFamily(fontFamilies, size, &faceTmp)
+					return &faceTmp, nil
 				}
 			}
 		}
 	}
 
-	return face, nil
+	return nil, fmt.Errorf("no fontfile found for family %s", fonts)
 }
 
 func getFamily(identifier string, size float64) (face *font.Face, ok bool)  {
