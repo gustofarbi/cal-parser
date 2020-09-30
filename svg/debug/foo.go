@@ -4,6 +4,7 @@ import (
 	"github.com/fogleman/gg"
 	"github.com/golang/freetype/truetype"
 	"golang.org/x/image/font"
+	"golang.org/x/image/math/fixed"
 	"image/color"
 	"io/ioutil"
 	"strings"
@@ -22,9 +23,6 @@ func main() {
 		panic("fontfile not found: " + fontfile + " " + err.Error())
 	}
 	fontRes, err := truetype.Parse(fontData)
-	//c := freetype.NewContext()
-	//c.SetFont(fontRes)
-	//c.
 	if err != nil {
 		panic("fontRes cannot be parsed: " + err.Error())
 	}
@@ -46,10 +44,7 @@ func main() {
 	text.SetFontFace(fontFace)
 	text.SetRGB(0, 0, 0)
 	for i := 0; i < 4; i++ {
-		for j, line := range strings.Split(str, "\n") {
-			text.DrawString(line, r, r+float64(j)*1.37*h)
-		}
-		DrawString(text, str, r, r, 1.0, &fontFace)
+		DrawString(text, str, r, r+150, -0.1, &fontFace)
 		text.RotateAbout(gg.Radians(90), r, r)
 	}
 	err = text.SavePNG("text.png")
@@ -63,36 +58,28 @@ func main() {
 	}
 }
 
-type ContextWithLetterSpacing struct {
-	gg.Context
-	letterSpacing float64
-}
-
-func NewContext(width, height int, letterSpacing float64) *ContextWithLetterSpacing {
-	ctx := gg.NewContext(width, height)
-	return &ContextWithLetterSpacing{
-		*ctx,
-		letterSpacing,
-	}
-}
-
 func DrawString(c *gg.Context, s string, x, y, letterSpacing float64, ff *font.Face) {
 	formerX := x
-	_, h := c.MeasureString(s)
+	h := float64((*ff).Metrics().Height >> 6)
 	for i, line := range strings.Split(s, "\n") {
+		var prevC = rune(-1)
 		y += float64(i) * 1.37 * h
 		x = formerX
-		for j, r := range line {
-			if j != 0 {
-				a, ok := (*ff).GlyphAdvance(r)
-				if !ok {
-					panic("not OK")
-				}
-				af := 0.0
-				af += float64(a.Ceil()) + float64(a.Floor()/1000000)
-				x += af
+		for _, r := range line {
+			var a fixed.Int26_6
+			if prevC >= 0 {
+				a += (*ff).Kern(prevC, r)
+			}
+			tmp, ok := (*ff).GlyphAdvance(r)
+			if !ok {
+				continue
 			}
 			c.DrawString(string(r), x, y)
+			a += tmp
+			af := float64(a >> 6)
+			af += af * letterSpacing
+			x += af
+			prevC = r
 		}
 	}
 }
