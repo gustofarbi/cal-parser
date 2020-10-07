@@ -1,0 +1,16 @@
+syntax = "proto3";
+
+package svg;
+
+service CalendarRenderer {
+  rpc RenderCalendar(Filepath) returns (Status) {}
+}
+
+message Filepath {
+  string path = 1;
+}
+
+message Status {
+  string msg = 1;
+  int32 code = 2;
+}
