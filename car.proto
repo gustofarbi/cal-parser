@@ -1,6 +1,7 @@
 syntax = "proto3";
 
 package svg;
+option go_package = "svg/pb";
 
 service CalendarRenderer {
   rpc RenderCalendar(Filepath) returns (Status) {}
