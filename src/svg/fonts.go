@@ -18,7 +18,7 @@ var (
 
 func init() {
 	wd, _ := os.Getwd()
-	fontsPrefix := wd + "/src/resources/fonts/"
+	fontsPrefix := wd + "/resources/fonts/"
 	fileInfos, err := ioutil.ReadDir(fontsPrefix)
 
 	if err != nil {

@@ -13,7 +13,7 @@ func main() {
 		panic(err)
 	}
 	client := pb.NewCalendarRendererClient(conn)
-	filepath := pb.Filepath{Path: "examples/wandkalender_a3-hoch_month.src"}
+	filepath := pb.Filepath{Path: "examples/wandkalender_a3-hoch_month.svg"}
 	status, err := client.RenderCalendar(context.Background(), &filepath)
 	if err != nil {
 		println(err.Error())

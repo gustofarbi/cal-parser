@@ -3,10 +3,10 @@ version: "3"
 services:
   renderer:
     image: golang
+    build: .
     volumes:
       - ./src:/application
-#    command: tail /dev/null
-#    command: ls -l
+#    command: tail -f /dev/null
     command:
       - go
       - run
