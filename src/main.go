@@ -4,6 +4,7 @@ import (
 	"encoding/xml"
 	"fmt"
 	"io/ioutil"
+	"os"
 	"strconv"
 	"strings"
 	"svg/svg"
@@ -14,7 +15,7 @@ func main() {
 	start := time.Now()
 	var foo svg.Svg
 	//data, err := ioutil.ReadFile("examples/wandkalender_a4-quer_month-1.svg")
-	data, err := ioutil.ReadFile("examples/wandkalender_a4-hoch_month-2.svg")
+	data, err := ioutil.ReadFile("src/examples/wandkalender_a4-hoch_month-2.svg")
 	//data, err := ioutil.ReadFile("examples/wandkalender_a3-hoch_month.svg")
 	if err != nil {
 		fmt.Errorf("shit happened: %s", err)
@@ -23,8 +24,10 @@ func main() {
 	if err != nil {
 		fmt.Errorf("shit happened: %s", err)
 	}
-	// todo: unite svg and node-mapping
+	// todo: unite src and node-mapping
 
+	wd, _ := os.Getwd()
+	println(wd)
 	year, m, _ := time.Now().Date()
 	month := int(m) - 8
 	year += 1

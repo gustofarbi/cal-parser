@@ -6,17 +6,19 @@ import (
 	"golang.org/x/image/font"
 	"io/ioutil"
 	"math"
+	"os"
 	"strconv"
 	"strings"
 )
 
-var availableFonts []string
-
-const fontsPrefix = "resources/fonts/"
-
-var fontCache = make(map[string]*font.Face)
+var (
+	availableFonts []string
+	fontCache      = make(map[string]*font.Face)
+)
 
 func init() {
+	wd, _ := os.Getwd()
+	fontsPrefix := wd + "/src/resources/fonts/"
 	fileInfos, err := ioutil.ReadDir(fontsPrefix)
 
 	if err != nil {
@@ -58,9 +60,9 @@ func GetFont(fonts string, size float64) (face *font.Face, e error) {
 	return nil, fmt.Errorf("no fontfile found for family %s", fonts)
 }
 
-func getFamily(identifier string, size float64) (face *font.Face, ok bool)  {
+func getFamily(identifier string, size float64) (face *font.Face, ok bool) {
 	sizeInt := int(math.Round(size))
-	face, ok = fontCache[identifier + strconv.Itoa(sizeInt)]
+	face, ok = fontCache[identifier+strconv.Itoa(sizeInt)]
 	return face, ok
 }
 
@@ -68,6 +70,6 @@ func cacheFamily(identifiers []string, size float64, face *font.Face) {
 	for _, identifier := range identifiers {
 		sizeInt := int(math.Round(size))
 		identifier = strings.TrimSpace(identifier)
-		fontCache[identifier + strconv.Itoa(sizeInt)] = face
+		fontCache[identifier+strconv.Itoa(sizeInt)] = face
 	}
 }

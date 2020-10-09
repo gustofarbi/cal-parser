@@ -23,4 +23,3 @@ func (l LineWeekendElement) Id() string {
 func (l LineWeekendElement) Priority() int {
 	return -1
 }
-

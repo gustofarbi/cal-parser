@@ -32,4 +32,3 @@ func (w WeekdayPosition) Id() string {
 func (w WeekdayPosition) Priority() int {
 	return -1
 }
-

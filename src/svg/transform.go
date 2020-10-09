@@ -49,7 +49,7 @@ func (s Scale) Apply(object *Position) {
 func (m Matrix) Apply(object *Position) {
 	dx := m.Values[4]
 	dy := m.Values[5]
-	angle := math.Atan2(m.Values[2] , m.Values[0])
+	angle := math.Atan2(m.Values[2], m.Values[0])
 	scaleX := m.Values[0] / math.Cos(angle)
 	scaleY := m.Values[3] / math.Cos(angle)
 	angleDeg := -(angle * 180.0 / math.Pi)

@@ -23,4 +23,3 @@ func (d DayAnotherMonth) Id() string {
 func (d DayAnotherMonth) Priority() int {
 	return -1
 }
-

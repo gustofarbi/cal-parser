@@ -26,4 +26,3 @@ func (r RefinementType) Id() string {
 func (r RefinementType) Priority() int {
 	return 0
 }
-

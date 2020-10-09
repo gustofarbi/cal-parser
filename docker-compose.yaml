@@ -1,0 +1,21 @@
+version: "3"
+
+services:
+  renderer:
+    image: golang
+    volumes:
+      - ./src:/application
+#    command: tail /dev/null
+#    command: ls -l
+    command:
+      - go
+      - run
+      - /application/debug/server.go
+
+#  store:
+#    image: minio/minio
+#    volumes:
+#    - storage:/export
+
+volumes:
+  storage:

@@ -29,4 +29,3 @@ func (l LineSkipDay) Id() string {
 func (l LineSkipDay) Priority() int {
 	return 0
 }
-

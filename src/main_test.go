@@ -6,8 +6,8 @@ import (
 
 func TestParseRender(t *testing.T) {
 	return
-	//var foo svg.Svg
-	//data, err := ioutil.ReadFile("wandkalender_a4-hoch_month.svg")
+	//var foo src.Svg
+	//data, err := ioutil.ReadFile("wandkalender_a4-hoch_month.src")
 	//if err != nil {
 	//	fmt.Errorf("shit happened: %s", err)
 	//}
@@ -16,7 +16,7 @@ func TestParseRender(t *testing.T) {
 	//	fmt.Errorf("shit happened: %s", err)
 	//}
 	//
-	//c := svg.NewCalendar()
+	//c := src.NewCalendar()
 	//dims := strings.Split(foo.ViewBox, " ")
 	//size := 2000.0
 	//widthViewbox, _ := strconv.ParseFloat(dims[2], 64)

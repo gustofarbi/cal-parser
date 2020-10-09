@@ -32,4 +32,3 @@ func (w WeekdayHeader) Id() string {
 func (w WeekdayHeader) Priority() int {
 	return -1
 }
-

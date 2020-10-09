@@ -76,7 +76,6 @@ func (c *Calendar) drawTexts(year, month int) {
 		drawSingleText(&text, year, month)
 	}
 
-
 	for _, text := range c.texts {
 		wg.Add(1)
 		drawSingleText(&text, year, month)
@@ -305,7 +304,7 @@ func (c *Calendar) fillPositionLine(position, year, month int, isWeekend bool) {
 }
 
 func renderSvg(svg string, width float64) *gg.Context {
-	svgFile, _ := ioutil.TempFile("", "*.svg")
+	svgFile, _ := ioutil.TempFile("", "*.src")
 	defer os.Remove(svgFile.Name())
 	pngFile, _ := ioutil.TempFile("", "*.png")
 	defer os.Remove(pngFile.Name())

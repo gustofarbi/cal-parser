@@ -15,7 +15,7 @@ func (f FormatWeekdayPosition) Apply(text *CalendarText) {
 		return
 	}
 	if f.Attr().(string) == "02" {
-		number, _ :=  strconv.Atoi(text.Content)
+		number, _ := strconv.Atoi(text.Content)
 		text.Content = fmt.Sprintf("%02d", number)
 	}
 }
@@ -38,4 +38,3 @@ func (f FormatWeekdayPosition) Id() string {
 func (f FormatWeekdayPosition) Priority() int {
 	return 20
 }
-
