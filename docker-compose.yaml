@@ -3,19 +3,29 @@ version: "3"
 services:
   renderer:
     image: golang
+    container_name: renderer
     build: .
     volumes:
       - ./src:/application
-#    command: tail -f /dev/null
-    command:
-      - go
-      - run
-      - /application/debug/server.go
+    working_dir: /application
+    command: go run debug/server.go
+    environment:
+      GOFLAGS: "-mod=vendor"
+      GO111MODULE: "on"
+    ports:
+    - 50051:50051
+    - 8080:8080
 
-#  store:
-#    image: minio/minio
-#    volumes:
-#    - storage:/export
+  store:
+    image: minio/minio
+    container_name: store
+    volumes:
+      - storage:/data
+    env_file:
+      - src/.env
+    command: server /data
+    ports:
+    - 9000:9000
 
 volumes:
   storage:

@@ -6,6 +6,7 @@ require (
 	github.com/fogleman/gg v1.3.0
 	github.com/golang/freetype v0.0.0-20170609003504-e2365dfdc4a0
 	github.com/golang/protobuf v1.4.2
+	github.com/joho/godotenv v1.3.0
 	github.com/minio/minio-go/v7 v7.0.5 // indirect
 	golang.org/x/image v0.0.0-20200921011436-3a743ba83854
 	golang.org/x/net v0.0.0-20201006153459-a7d1128ccaa0

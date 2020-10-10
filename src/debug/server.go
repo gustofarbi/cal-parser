@@ -5,9 +5,12 @@ import (
 	"encoding/xml"
 	"flag"
 	"fmt"
+	"github.com/joho/godotenv"
 	"google.golang.org/grpc"
 	"io/ioutil"
 	"net"
+	"net/http"
+	"os"
 	"path"
 	"strconv"
 	"strings"
@@ -66,6 +69,11 @@ func (c *calendarRenderer) RenderCalendar(ctx context.Context, filepath *pb.File
 
 func main() {
 	flag.Parse()
+	err := godotenv.Load()
+	if err != nil {
+		println(err.Error())
+	}
+	println(os.Getenv("MINIO_SECRET_KEY"))
 	listener, err := net.Listen("tcp", fmt.Sprintf(":%d", *port))
 	if err != nil {
 		panic(fmt.Sprintf("cannot connect on port %d: %s", *port, err))
@@ -73,7 +81,14 @@ func main() {
 
 	server := grpc.NewServer()
 	pb.RegisterCalendarRendererServer(server, &calendarRenderer{})
+	go func() {
+		http.HandleFunc("/", func(writer http.ResponseWriter, request *http.Request) {
+			fmt.Fprintln(writer, "hello buddy")
+		})
+		println("http server on port: 8080")
+		http.ListenAndServe(":8080", nil)
+	}()
 
-	fmt.Println("serving on port: " + strconv.Itoa(*port))
+	println("grpc server on port: " + strconv.Itoa(*port))
 	server.Serve(listener)
 }
