@@ -28,17 +28,18 @@ var weekdays = map[int]string{
 }
 
 var (
-	ch = make(chan ImageObject)
+	ch chan ImageObject
 	wg = &sync.WaitGroup{}
 )
 
-func (c *Calendar) Render(year, month int, width, height float64) {
+func (c *Calendar) Render(year, month int, width, height float64) *gg.Context {
+	ch = make(chan ImageObject)
 	canvas := gg.NewContext(int(width), int(height))
 	go startReceiver(canvas)
 	c.drawTexts(year, month)
 	bg := renderSvg(c.svgContent, width)
 	bg.DrawImage(canvas.Image(), 0, 0)
-	bg.SavePNG("saved.png")
+	return bg
 }
 
 type ImageObject struct {
