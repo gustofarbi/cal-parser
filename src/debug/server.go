@@ -6,8 +6,11 @@ import (
 	"flag"
 	"fmt"
 	"github.com/joho/godotenv"
+	"github.com/minio/minio-go/v7"
+	"github.com/minio/minio-go/v7/pkg/credentials"
 	"google.golang.org/grpc"
 	"io/ioutil"
+	"log"
 	"net"
 	"net/http"
 	"os"
@@ -37,8 +40,39 @@ func (c *calendarRenderer) RenderCalendar(ctx context.Context, filepath *pb.File
 	start := time.Now()
 	var foo svg.Svg
 	data, err := ioutil.ReadFile(filepath.Path)
+	minioClient := MinioClient()
+	f, err := ioutil.TempFile("/tmp", "*.svg")
 	if err != nil {
-		fmt.Errorf("shit happened: %s", err)
+		log.Fatalln(err)
+	}
+	err = minioClient.FGetObject(
+		context.Background(),
+		filepath.Bucket,
+		filepath.Path,
+		f.Name(),
+		minio.GetObjectOptions{},
+	)
+	if err != nil {
+		log.Fatalln(err)
+	}
+
+	accessKeyId := os.Getenv("MINIO_ACCESS_KEY")
+	secretAccessKey := os.Getenv("MINIO_SECRET_KEY")
+	client, err := minio.New("store:9000", &minio.Options{
+		Creds: credentials.NewStaticV4(accessKeyId, secretAccessKey, ""),
+	})
+	if err != nil {
+		log.Fatalln("cannot connect to minio: " + err.Error())
+	}
+	err = client.FGetObject(context.Background(),
+		"foobar",
+		path.Base(filepath.Path),
+		filepath.Path,
+		minio.GetObjectOptions{})
+
+	//err = client.MakeBucket(context.Background(), "foobar", minio.MakeBucketOptions{Region: "us-east-1"})
+	if err != nil {
+		log.Fatalf("shit happened: %s\n", err)
 	}
 	err = xml.Unmarshal(data, &foo)
 	if err != nil {
@@ -73,7 +107,6 @@ func main() {
 	if err != nil {
 		println(err.Error())
 	}
-	println(os.Getenv("MINIO_SECRET_KEY"))
 	listener, err := net.Listen("tcp", fmt.Sprintf(":%d", *port))
 	if err != nil {
 		panic(fmt.Sprintf("cannot connect on port %d: %s", *port, err))

@@ -7,6 +7,7 @@ import (
 	"image"
 	"image/color"
 	"io/ioutil"
+	"log"
 	"math"
 	"os"
 	"os/exec"
@@ -314,14 +315,19 @@ func renderSvg(svg string, width float64) *gg.Context {
 		fmt.Println(err)
 	}
 
-	cmd := exec.Command("rsvg-convert", "-w", strconv.Itoa(int(width)), svgFile.Name(), "-o", pngFile.Name())
+	cmd := exec.Command("rsvg-convert",
+		"-w",
+		strconv.Itoa(int(width)),
+		svgFile.Name(),
+		"-o",
+		pngFile.Name())
 	err = cmd.Run()
 	if err != nil {
-		fmt.Println(err)
+		log.Fatalln(err)
 	}
 	im, _, err := image.Decode(pngFile)
 	if err != nil {
-		fmt.Println(err)
+		log.Fatalln(err)
 	}
 
 	return gg.NewContextForImage(im)
