@@ -15,7 +15,15 @@ func (a Alignment) Apply(text *CalendarText) {
 	case "c":
 		text.Position.X += (text.Position.Width - w) / 2
 	case "r":
-		text.Position.X += text.Position.Width - w
+		if text.Rotation != 0.0 {
+			for _, angle := range [4]float64{90.0, -90.0, 270.0, -270.0} {
+				if text.Rotation == angle {
+					text.Y += w - text.Width
+				}
+			}
+		} else {
+			text.X += text.Width - w
+		}
 	}
 }
 

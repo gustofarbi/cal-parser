@@ -265,16 +265,18 @@ func (c *Calendar) removeNode(n *Node) {
 func (c *Calendar) fillLine(year, month int) {
 	first := time.Date(year, time.Month(month), 1, 12, 0, 0, 0, time.Local)
 	counter := 1
-	for int(first.Month()) == month {
-		header, ok := c.weekdayHeadingsLine[counter]
-		if !ok {
-			panic("header not set: " + strconv.Itoa(counter))
+	if len(c.weekdayHeadingsLine) == 31 {
+		for int(first.Month()) == month {
+			header, ok := c.weekdayHeadingsLine[counter]
+			if !ok {
+				println("header not set: " + strconv.Itoa(counter))
+			}
+			header.Content = weekdays[int(first.Weekday())%7]
+			first = first.Add(24 * time.Hour)
+			counter++
+			wg.Add(1) // todo do this in the method itself
+			drawSingleText(&header, year, month)
 		}
-		header.Content = weekdays[int(first.Weekday())%7]
-		first = first.Add(24 * time.Hour)
-		counter++
-		wg.Add(1) // todo do this in the method itself
-		drawSingleText(&header, year, month)
 	}
 	first = time.Date(year, time.Month(month), 1, 12, 0, 0, 0, time.Local)
 	counter = 1

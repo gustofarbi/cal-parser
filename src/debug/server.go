@@ -35,7 +35,7 @@ func (c *calendarRenderer) RenderCalendar(ctx context.Context, filepath *pb.File
 	println("got request: " + filepath.Path)
 
 	start := time.Now()
-	minioClient := store.MinioClient("localhost:9000")
+	minioClient := store.MinioClient("store:9000")
 	obj, err := minioClient.GetObject(
 		context.Background(),
 		filepath.Bucket,
@@ -57,7 +57,7 @@ func (c *calendarRenderer) RenderCalendar(ctx context.Context, filepath *pb.File
 	}
 	// todo: unite src and node-mapping
 
-	year := time.Now().Year() +1
+	year := time.Now().Year() + 1
 	cal := svg.NewCalendar(buf.Bytes())
 	dims := strings.Split(foo.ViewBox, " ")
 	size := 2000.0
@@ -70,6 +70,7 @@ func (c *calendarRenderer) RenderCalendar(ctx context.Context, filepath *pb.File
 	if err != nil {
 		log.Fatalln(err)
 	}
+	defer f.Close()
 	prefix := strings.Replace(filepath.Path, path.Base(filepath.Path), "", -1)
 	for month := 1; month <= 12; month++ {
 		println("rendering month: " + strconv.Itoa(month))
@@ -112,5 +113,7 @@ func main() {
 	}()
 
 	println("grpc server on port: " + strconv.Itoa(*port))
-	server.Serve(listener)
+	for {
+		log.Println(server.Serve(listener))
+	}
 }

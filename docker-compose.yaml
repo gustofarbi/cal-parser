@@ -2,7 +2,7 @@ version: "3"
 
 services:
   renderer:
-    image: golang
+    image: renderer
     container_name: renderer
     build: .
     volumes:
