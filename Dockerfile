@@ -1,5 +1,18 @@
-FROM golang
+FROM golang as builder
 
-RUN apt update && apt install -y librsvg2-bin
+COPY parser /parser
 
-EXPOSE 50051
+RUN cd /parser && \
+    go mod vendor && \
+    go build -o renderer main.go
+#RUN apt update && apt install -y librsvg2-bin
+
+FROM alpine as runner
+
+COPY --from=builder /parser/renderer /usr/local/bin/renderer
+
+RUN apk add librsvg-dev
+
+ENTRYPOINT ["render"]
+
+EXPOSE 80

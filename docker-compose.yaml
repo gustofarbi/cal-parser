@@ -6,7 +6,7 @@ services:
     container_name: renderer
     build: .
     volumes:
-      - ./src:/application
+      - ./parser:/application
     working_dir: /application
     command: go run debug/server.go
     environment:
@@ -22,7 +22,7 @@ services:
     volumes:
       - storage:/data
     env_file:
-      - src/.env
+      - parser/.env
     command: server /data
     ports:
     - 9000:9000

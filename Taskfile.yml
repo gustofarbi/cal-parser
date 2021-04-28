@@ -1,0 +1,9 @@
+version: '3'
+
+vars:
+  IMAGE_NAME: calendar-renderer
+
+tasks:
+  build:
+    cmds:
+      - docker build . -t="{{.IMAGE_NAME}}"
