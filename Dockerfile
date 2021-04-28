@@ -2,17 +2,20 @@ FROM golang as builder
 
 COPY parser /parser
 
-RUN cd /parser && \
-    go mod vendor && \
-    go build -o renderer main.go
-#RUN apt update && apt install -y librsvg2-bin
+WORKDIR /parser
+RUN go mod vendor
+RUN GOOS=linux GOARCH=amd64 CGO_ENABLED=0 go build -o renderer main.go
 
 FROM alpine as runner
 
-COPY --from=builder /parser/renderer /usr/local/bin/renderer
+RUN adduser --system --shell /bin/ash cr
 
 RUN apk add librsvg-dev
 
-ENTRYPOINT ["render"]
+USER cr
+
+COPY --chown=cr:cr --from=builder /parser/renderer /usr/local/bin/renderer
+
+#ENTRYPOINT ["renderer"]
 
 EXPOSE 80

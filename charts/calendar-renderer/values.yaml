@@ -7,7 +7,7 @@ replicaCount: 1
 image:
   repository: calendar-renderer
   pullPolicy: IfNotPresent
-  tag: ""
+  tag: latest
 
 imagePullSecrets: []
 nameOverride: ""
@@ -76,3 +76,9 @@ nodeSelector: {}
 tolerations: []
 
 affinity: {}
+
+nfsServer:
+  # depends on the underlying virtual machine. (e.g. virtualBox: 192.168.99.1, hyperkit: 192.168.64.1)
+  ipAddress: 192.168.64.1
+  paths:
+    code: /Users/matej.karolcik/workspace/canvas-renderer/app
