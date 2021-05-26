@@ -14,6 +14,7 @@ import (
 	"io"
 	"log"
 	"net/http"
+	"os"
 	"path"
 	"strconv"
 	"strings"
@@ -43,7 +44,7 @@ func main() {
 	http.HandleFunc("/health", health)
 	http.HandleFunc("/render", render)
 	for {
-		err := http.ListenAndServe(":80", nil)
+		err := http.ListenAndServe(":"+os.Getenv("PORT"), nil)
 		log.Println(err)
 	}
 }
